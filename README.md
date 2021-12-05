@@ -39,4 +39,4 @@ python -m http.server 8000
 
 ### Todolist
 - [x] Subdir Support
-- [ ] Dark mode
+- [x] Dark mode
