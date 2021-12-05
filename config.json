@@ -1,0 +1,6 @@
+{
+    "name": "Wiki",
+    "root": "/",
+    "elements": ["navbar"],
+    "errorMessage":"Sorry, no page found"
+}
