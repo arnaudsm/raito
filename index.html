@@ -259,15 +259,13 @@
 
     const init = async () => {
         config.elements.forEach((element) => loadElement(element));
-        loadContent();
-        window.onhashchange = loadContent;
+        loadContent(window.location.hash);
     };
 
     const renderMD = async (path) => {
         const res = await fetch(`${config.root}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
-
 
         return marked.parse(markdown,
             {
@@ -276,16 +274,22 @@
             });
     }
 
-    const loadContent = async () => {
-        // Path routing
-        let path;
-        if (window.location.hash == '' || window.location.hash[0] != "#") path = "/";
-        else path = window.location.hash.slice(1);
-        if (path.slice(-1) == "/") path += "README";
-        if (path.slice(-3) == ".md") path = path.slice(0, -3);
+    const relativeClick = async (e) => {
+        // Stay on the page for better performance
+        e.preventDefault();
+        let hash = new URL(e.target.href).hash;
+        loadContent(hash);
+    }
+
+    const loadContent = async (hash) => {
+        // Hash routing
+        if (hash == '') hash = "/";
+        if (hash[0] == "#") hash = hash.slice(1);
+        if (hash.slice(-1) == "/") hash += "README";
+        if (hash.slice(-3) == ".md") hash = hash.slice(0, -3);
 
         // Load Markdown
-        content.innerHTML = await renderMD(path) || config.errorMessage || ''
+        content.innerHTML = await renderMD(hash) || config.errorMessage || ''
 
         // Reformat document
         document
@@ -294,17 +298,14 @@
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
-        document
-            .querySelectorAll("a")
-            .forEach((a) => {
-            });
+        Array.from(document.querySelectorAll("a"))
+            .filter((a) => a.href.startsWith(window.origin))
+            .forEach((a) => a.addEventListener('click', relativeClick));
         document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
 
-        // Path redirections
-        path = "#" + path.replace(/(README$)/, '')
-        if (window.location.hash == '') return
-        else if (path == "#/") window.location.replace("")
-        else window.location.replace(path);
+        // Clean Hash
+        hash = "#" + hash.replace(/(README$)/, '')
+        window.location.replace(hash);
     };
 
 
