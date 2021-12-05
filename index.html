@@ -13,7 +13,8 @@
 
 <!-- Highlight.js - Syntax Highlighting -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/vs.min.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
 
 <!-- Configure me! -->
 <script>
@@ -37,6 +38,14 @@
         --color-3: #f4b400;
         --color-4: #0f9d58;
         --border-radius: 7px;
+    }
+
+    [data-theme="dark"] {
+        --text-color: #adbac7;
+        --border-color: #373e47;
+        --background-color: #22272e;
+        --darker-background-color: rgba(99, 110, 123, 0.4);
+        --lighter-background-color: rgba(99, 110, 123, 0.1);
     }
 
     body {
@@ -117,9 +126,7 @@
     }
 
 
-
     /* Table */
-
     table {
         overflow: hidden;
         border-collapse: collapse;
@@ -173,8 +180,6 @@
         border: none;
     }
 
-
-
     ul ul {
         border: none;
         margin: 1em -0.9em -0.9em -0.9em;
@@ -209,7 +214,6 @@
         appearance: auto;
         background: inherit;
     }
-
 
     /* Navbar */
     #navbar {
@@ -261,6 +265,36 @@
         border-radius: var(--border-radius);
     }
 
+    .button {
+        margin: 0;
+        padding: 1em 2em !important;
+        background: #4285f4;
+        color: white;
+        overflow: auto;
+        border-radius: var(--border-radius);
+    }
+
+    #darkmode {
+        position: fixed;
+        z-index: 1;
+        top: 0.5em;
+        right: 1em;
+    }
+
+    #darkmode .button {
+        background: white;
+        text-align: center;
+        padding: 0.6em !important;
+        border-radius: 9em;
+        line-height: 1.2;
+        cursor: pointer;
+    }
+
+    #darkmode .button.dark {
+        background-color: black;
+        content: "a";
+    }
+
     #github_ribbon p {
         margin: 0;
     }
@@ -308,7 +342,7 @@
 
         // Reformat document
         document
-            .querySelectorAll("input[type=checkbox]")
+            .querySelectorAll("#content input[type=checkbox]")
             .forEach((checkbox) => {
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
@@ -323,7 +357,6 @@
         hash = "#" + hash.replace(/(README$)/, '')
         window.location.replace(hash);
     };
-
 
     const loadElement = async (element) => {
         const elementHtml = await renderMD(element);
