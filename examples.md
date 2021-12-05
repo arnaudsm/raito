@@ -1,15 +1,16 @@
 # Examples
-## Code Blocks
-``` js
-var foo = function (bar) {
-  return bar++;
-};
+## Blockquotes
+Markdown
+```markdown
+> Not all those who wander are lost
 ```
+
+Output
+> Not all those who wander are lost
 
 ## Tables
-Markdown file content:
-
-```
+Markdown
+```markdown
 | Ingredient    | Quantity      | Price  |
 | ------------- |---------------|--------|
 | Milk          | 1L            | $5     |
@@ -17,8 +18,7 @@ Markdown file content:
 | Eggs          | 6             | $6.50  |
 ```
 
-Rendered ouput:
-
+Output
 | Ingredient    | Quantity      | Price  |
 | ------------- |---------------|--------|
 | Milk          | 1L            | $5     |
@@ -26,29 +26,47 @@ Rendered ouput:
 | Eggs          | 6             | $6.50  |
 
 ## Checklists
-Markdown file content:
-
-```
+Markdown
+```markdown
 - [x] Beer
 - [ ] Pancakes
 ```
 
-
-Rendered ouput:
-
+Output
 - [x] Beer
 - [ ] Pancakes
-
 
 ## Lists
-Markdown file content:
-
-```
+Markdown
+```markdown
 - Frodo Baggins
 - Gandalf the Grey
 ```
 
-Rendered ouput:
-
+Output
 - Frodo Baggins
 - Gandalf the Grey
+
+## Code Blocks
+Markdown
+````markdown
+```js
+var foo = function (bar) {
+  return bar++;
+};
+```
+````
+Output
+``` js
+var foo = function (bar) {
+  return bar++;
+};
+```
+## Links
+Markdown
+```markdown
+[Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+```
+Output
+
+[Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
