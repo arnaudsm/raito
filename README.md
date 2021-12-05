@@ -9,31 +9,6 @@ Made by [Arnaud de Saint Meloir](https://arnaud.at/), inspired by the defunct [M
 ## Usage
 Just drop `index.html` in your website root.
 
-## Components
-### Code Blocks
-``` js
-var foo = function (bar) {
-  return bar++;
-};
-```
-
-### Tables
-| Ingredient    | Quantity      | Price  |
-| ------------- |---------------|--------|
-| Milk          | 1L            | $5     |
-| Flour         | 350g          | $2     |
-| Eggs          | 6             | $6.50  |
-
-### Checklists
-- [x] Beer
-- [ ] Pancakes
-
-### Lists
-- Frodo Baggins
-- Gandalf the Grey
-
-
-
 ## Development
 ### Run locally
 Run a local HTTP server in the directory, and access http://localhost:8000 
@@ -50,5 +25,4 @@ Components are visible in every page, and useful for navbars, sidebars and foote
 Create your component in a `.md` file, then add it to `config.json`, 
 
 ## Todo
-- [ ] No reload onclick?
 - [ ] Subdirectory support

@@ -1,2 +1,2 @@
 - [![Raito Logo](/logo.svg) Home](/)
-- [About](about)
+- [Examples](examples)
