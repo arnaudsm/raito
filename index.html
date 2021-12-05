@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/raito/logo.svg" sizes="any" type="image/svg+xml">
+    <link rel="icon" href="/logo.svg" sizes="any" type="image/svg+xml">
 </head>
 
 <!-- Marked - Markdown to HTML library -->
@@ -306,6 +306,7 @@
 </body>
 <script>
     const content = document.getElementById("content");
+    if (typeof hljs == 'undefined') var hljs;
 
     const init = async () => {
         config.elements.forEach((element) => loadElement(element));
@@ -316,7 +317,6 @@
         const res = await fetch(`${config.root}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
-
         return marked.parse(markdown,
             {
                 baseUrl: "#/",
