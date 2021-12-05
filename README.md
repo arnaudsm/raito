@@ -6,7 +6,7 @@
 
 [Demo](https://arnaud.at/raito) | [GitHub](https://github.com/arnaudsm/raito)
 
-Made by [Arnaud de Saint Meloir](https://arnaud.at/), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
+Made by [Arnaud de Saint Meloir](http://arnaud.at/), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
 
 ## Install
