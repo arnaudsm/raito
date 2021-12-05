@@ -45,6 +45,12 @@
         margin: 0;
         padding: 0;
         background-color: var(--background-color);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    body.loaded {
+        opacity: 1;
     }
 
     h1,
@@ -303,6 +309,7 @@
             .filter((a) => a.href.startsWith(window.origin))
             .forEach((a) => a.addEventListener('click', relativeClick));
         document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
+        document.body.classList.add("loaded");
 
         // Clean Hash
         hash = "#" + hash.replace(/(README$)/, '')
