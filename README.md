@@ -6,6 +6,8 @@
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at/), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
+[Check our demo!](https://arnaud.at/raito)
+
 ## Usage
 Just drop `index.html` in your website root.
 
