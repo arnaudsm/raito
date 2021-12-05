@@ -40,3 +40,4 @@ python -m http.server 8000
 ### Todolist
 - [x] Subdir Support
 - [x] Dark mode
+- [ ] Fix history navigation
