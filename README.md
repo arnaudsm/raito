@@ -1,12 +1,12 @@
 <img src="logo.svg" height="200" style="margin: auto;"/>
 
-# [Raito](https://arnaud.at/raito)  | Minimal Markdown CMS
+# [Raito](https://raito.arnaud.at)  | Minimal Markdown CMS
 > Raito is ultralight, 100% static, and resides in a single 7kb file.  
 > Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at/), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
-[Check our demo!](https://arnaud.at/raito)
+[Check our demo!](https://raito.arnaud.at)
 
 ## Usage
 Just drop `index.html` in your website root.
@@ -19,7 +19,7 @@ Run a local HTTP server in the directory, and access http://localhost:8000
 python -m http.server 8000
 ```
 ### Customisation
-Use `config.json` to configure strings and components.
+Edit the `config` variable in `index.html`.
 
 ### Components
 Components are visible in every page, and useful for navbars, sidebars and footers.

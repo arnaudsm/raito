@@ -14,6 +14,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/vs.min.css">
 
+<!-- Configure me! -->
+<script>
+    const config = {
+        "name": "Wiki",
+        "elements": ["navbar"],
+        "errorMessage": "Page not found"
+    }
+</script>
+
 <style>
     :root {
         --text-color: #313f47;
@@ -245,16 +254,11 @@
     <div id="content"></div>
 </body>
 <script>
-    // Default config. Create `config.json` to customize!
-
-    var config = { name: "Wiki", elements: [] };
-
     const content = document.getElementById("content");
 
 
 
     const init = async () => {
-        await loadConfig();
         config.elements.forEach((element) => loadElement(element));
         loadContent();
         window.onhashchange = loadContent;
@@ -273,12 +277,6 @@
             });
     }
 
-    const loadConfig = async () => {
-        const res = await fetch(`/config.json`);
-        if (res.status != 200) return;
-        config = await res.json();
-    }
-
     const loadContent = async () => {
         // Path routing
         let path;
@@ -288,7 +286,7 @@
         if (path.slice(-3) == ".md") path = path.slice(0, -3);
 
         // Load Markdown
-        content.innerHTML = await renderMD(path) || (config.errorMessage || "Page not found")
+        content.innerHTML = await renderMD(path) || config.errorMessage || ''
 
         // Reformat document
         document
