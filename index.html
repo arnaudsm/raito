@@ -355,6 +355,7 @@
 
         // Clean Hash
         hash = "#" + hash.replace(/(README$)/, '')
+        window.history.pushState(null, null, hash);
         window.location.replace(hash);
     };
 
