@@ -37,3 +37,6 @@ python -m http.server 8000
 - [Marked.js](https://github.com/markedjs/marked/)
 - [highlight.js](https://github.com/highlightjs/highlight.js/)
 
+### Todolist
+- [x] Subdir Support
+- [ ] Dark mode
