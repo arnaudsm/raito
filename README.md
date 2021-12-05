@@ -1,12 +1,12 @@
 <img src="logo.svg" height="200" style="margin: auto;"/>
 
-# [Raito](https://raito.arnaud.at)  | Minimal Markdown CMS
+# [Raito](https://arnaud.at/raito)  | Minimal Markdown CMS
 > Raito is ultralight, 100% static, and resides in a single 7kb file.  
 > Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at/), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
-[Check our demo!](https://raito.arnaud.at)
+[Check our demo!](https://arnaud.at/raito)
 
 ## Usage
 Just drop `index.html` in your website root.
