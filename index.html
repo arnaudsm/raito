@@ -18,6 +18,7 @@
 <script>
     const config = {
         "name": "Wiki",
+        "root": "", // Eg: "/raito/" 
         "elements": ["navbar"],
         "errorMessage": "Page not found"
     }
@@ -256,8 +257,6 @@
 <script>
     const content = document.getElementById("content");
 
-
-
     const init = async () => {
         config.elements.forEach((element) => loadElement(element));
         loadContent();
@@ -265,7 +264,7 @@
     };
 
     const renderMD = async (path) => {
-        const res = await fetch(`${path}.md`);
+        const res = await fetch(`${config.root}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
 
@@ -294,6 +293,10 @@
             .forEach((checkbox) => {
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
+            });
+        document
+            .querySelectorAll("a")
+            .forEach((a) => {
             });
         document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
 
