@@ -20,6 +20,9 @@ Most modern Markdown components are supported, check [the examples](https://arna
 ### Customisation
 Edit the `config` variable in `index.html`.
 
+### Syntax Highlighting
+Uncomment the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
+
 ### Components
 Components are visible in every page, and useful for navbars, sidebars and footers.
 
@@ -35,7 +38,7 @@ python -m http.server 8000
 
 ### Dependencies
 - [Marked.js](https://github.com/markedjs/marked/)
-- [highlight.js](https://github.com/highlightjs/highlight.js/)
+- [highlight.js](https://github.com/highlightjs/highlight.js/) (Optional)
 
 ### Todolist
 - [x] Subdir Support

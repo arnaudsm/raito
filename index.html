@@ -11,10 +11,11 @@
 <!-- Marked - Markdown to HTML library -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<!-- Highlight.js - Syntax Highlighting -->
+<!-- OPTIONAL : Highlight.js - Syntax Highlighting -->
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
+-->
 
 <!-- Configure me! -->
 <script>
@@ -319,7 +320,7 @@
         return marked.parse(markdown,
             {
                 baseUrl: "#/",
-                highlight: (code) => hljs.highlightAuto(code).value,
+                highlight: (code) => hljs ? hljs.highlightAuto(code).value : code,
             });
     }
 
