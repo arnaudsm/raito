@@ -24,7 +24,4 @@ Edit the `config` variable in `index.html`.
 ### Components
 Components are visible in every page, and useful for navbars, sidebars and footers.
 
-Create your component in a `.md` file, then add it to `config.json`, 
-
-## Todo
-- [ ] Subdirectory support
+Create your component in a `.md` file, then add it to `config.json`.
