@@ -22,6 +22,7 @@ Edit the `config` variable in `index.html`.
 
 ### Syntax Highlighting
 Uncomment the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
+This adds a significant bundle size.
 
 ### Components
 Components are visible in every page, and useful for navbars, sidebars and footers.
