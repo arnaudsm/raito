@@ -369,6 +369,7 @@
     };
 
     window.onload = init;
+    window.onhashchange = () => loadContent(window.location.hash);
 </script>
 
 </html>
