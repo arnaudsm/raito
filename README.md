@@ -32,9 +32,11 @@ Create your component in a `.md` file, then add it to `config.json`.
 
 ## Development
 ### Run locally
-Run a local HTTP server in the directory, and access http://localhost:8000 
+Run a local HTTP server, and access http://localhost:8000 
 
 ```bash
+docker-compose up
+# OR
 python -m http.server 8000
 ```
 
