@@ -1,13 +1,14 @@
 <img src="logo.svg" height="200" style="margin: auto;"/>
 
-# [Raito](https://arnaud.at/raito)  | Minimal Markdown CMS
-> Raito is ultralight, 100% static, and resides in a single 8kb file.  
-> Hence the name, ライト meaning *light* in Japanese.
+# [Raito](https://arnaud.at/raito) | Mini Markdown CMS ✨📝
+> Build your website with a single file!
 
-[Demo](https://arnaud.at/raito) | [GitHub](https://github.com/arnaudsm/raito)
+Raito is an ultralight static CMS/Wiki that weights 8kb.  
+Hence the name, ライト meaning *light* in Japanese.
 
-Made by [Arnaud de Saint Meloir](http://arnaud.at/), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
+Made by [Arnaud de Saint Meloir](arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
+Check the [Demo 🔥](https://arnaud.at/raito)
 
 ## Install
 Just drop `index.html` in your website root.
@@ -22,7 +23,7 @@ Edit the `config` variable in `index.html`.
 
 ### Syntax Highlighting
 Uncomment the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
-This adds a significant bundle size.
+This adds significant bundle size.
 
 ### Components
 Components are visible in every page, and useful for navbars, sidebars and footers.
