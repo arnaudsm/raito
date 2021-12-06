@@ -1,7 +1,7 @@
 <img src="logo.svg" height="200" style="margin: auto;"/>
 
 # [Raito](https://arnaud.at/raito)  | Minimal Markdown CMS
-> Raito is ultralight, 100% static, and resides in a single 9kb file.  
+> Raito is ultralight, 100% static, and resides in a single 8kb file.  
 > Hence the name, ライト meaning *light* in Japanese.
 
 [Demo](https://arnaud.at/raito) | [GitHub](https://github.com/arnaudsm/raito)
