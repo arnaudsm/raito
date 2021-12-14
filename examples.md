@@ -1,4 +1,12 @@
 # Examples
+## Chart.js
+Markdown
+```html
+<canvas id="myChart"></canvas>
+```
+Output
+<canvas id="myChart"></canvas>
+
 ## Blockquotes
 Markdown
 ```markdown
@@ -7,6 +15,7 @@ Markdown
 
 Output
 > Not all those who wander are lost
+
 
 ## Tables
 Markdown

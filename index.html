@@ -310,7 +310,8 @@
 
     const init = async () => {
         config.elements.forEach((element) => loadElement(element));
-        loadContent(window.location.hash);
+        await loadContent(window.location.hash);
+        loadChart()
     };
 
     const renderMD = async (path) => {
@@ -361,6 +362,41 @@
 
     window.onload = init;
     window.onhashchange = () => loadContent(window.location.hash);
+
+    const loadChart = () => {
+        console.log(document.getElementById('myChart'))
+        if (document.getElementById('myChart')) {
+            const labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+            ];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'My First dataset',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                }]
+            };
+            const config = {
+                type: 'line',
+                data: data,
+                options: {}
+            };
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        }
+    }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+
 
 </html>
