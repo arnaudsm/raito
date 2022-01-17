@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/logo.svg" sizes="any" type="image/svg+xml">
+</head>
+
+<!-- Marked - Markdown to HTML library -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- OPTIONAL : Highlight.js - Syntax Highlighting -->
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
+-->
+
+<!-- Configure me! -->
+<script>
+    const config = {
+        root: "/subdir_example", // Website Root URL. Eg: "/raito/" 
+        name: "Raito",
+        elements: [],
+        errorMessage: "Page not found"
+    }
+</script>
+
+<style>
+    :root {
+        --text-color: #313f47;
+        --border-color: #dddddd;
+        --background-color: white;
+        --darker-background-color: #0000000a;
+        --lighter-background-color: #fcfcfc;
+        --color-1: #4285f4;
+        --color-2: #db4437;
+        --color-3: #f4b400;
+        --color-4: #0f9d58;
+        --border-radius: 7px;
+    }
+
+    [data-theme="dark"] {
+        --text-color: #adbac7;
+        --border-color: #373e47;
+        --background-color: #22272e;
+        --darker-background-color: rgba(99, 110, 123, 0.4);
+        --lighter-background-color: rgba(99, 110, 123, 0.1);
+    }
+
+    body {
+        color: var(--text-color);
+        font-family: "Open Sans", Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    body.loaded {
+        opacity: 1;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.3em;
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--color-1);
+    }
+
+    blockquote a {
+        color: #92d3ff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    hr {
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    img {
+        max-height: 20em;
+        border-radius: var(--border-radius);
+    }
+
+    #content {
+        max-width: 35rem;
+        padding: 0 1em;
+        margin: auto;
+        padding-top: 5em;
+    }
+
+    :not(pre)>code {
+        background: var(--darker-background-color);
+        border-radius: var(--border-radius);
+        padding: 0.2em 0.4em;
+    }
+
+    pre {
+        background: var(--darker-background-color);
+        padding: 1.6em !important;
+        overflow: auto;
+        padding: calc(0.75em);
+        margin-bottom: 1em;
+        border-radius: var(--border-radius);
+    }
+
+    blockquote {
+        margin: 0;
+        padding: 1em 2em !important;
+        background: #4285f4;
+        color: white;
+        overflow: auto;
+        border-radius: var(--border-radius);
+    }
+
+
+    /* Table */
+    table {
+        overflow: hidden;
+        border-collapse: collapse;
+        margin: 2em 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 20em;
+        border-radius: var(--border-radius);
+    }
+
+    table thead tr {
+        background-color: var(--color-1);
+        color: #ffffff;
+        text-align: left;
+    }
+
+    table th,
+    table td {
+        padding: 0.8em 1.2em;
+    }
+
+    table tbody tr:nth-of-type(odd) {
+        background-color: var(--darker-background-color);
+    }
+
+    table tbody tr:nth-of-type(even) {
+        background-color: var(--lighter-background-color);
+    }
+
+    table tbody tr.active-row {
+        font-weight: bold;
+        color: var(--color-1);
+    }
+
+    /* Lists */
+    ul {
+        padding-inline-start: 0;
+        list-style: none;
+        background-color: var(--lighter-background-color);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--darker-background-color);
+        padding: 0;
+    }
+
+    li {
+        padding: 0.9em;
+        border-bottom: 1px solid var(--darker-background-color);
+    }
+
+    li:last-of-type {
+        border: none;
+    }
+
+    ul ul {
+        border: none;
+        margin: 1em -0.9em -0.9em -0.9em;
+        border-top: 1px solid var(--darker-background-color);
+        border-radius: 0;
+    }
+
+    ul ul li {
+        padding-left: 4em;
+    }
+
+    /* Checklists */
+    ul:not(.checklist) li::before {
+        content: "-";
+        margin-right: 0.7em;
+        color: var(--border-color);
+    }
+
+    .checklist input[type=checkbox] {
+        pointer-events: none;
+        margin-right: 1em;
+        height: 1.2em;
+        width: 1.2em;
+        vertical-align: top;
+
+        appearance: none;
+        background: var(--darker-background-color);
+        border-radius: 2px;
+    }
+
+    .checklist input[type=checkbox]:checked {
+        appearance: auto;
+        background: inherit;
+    }
+
+    /* Navbar */
+    #navbar {
+        position: relative;
+        width: 100%;
+        background-color: var(--color-1);
+        color: white;
+        margin: 0;
+        position: fixed;
+    }
+
+    #navbar>ul>li>a>img {
+        max-height: 2em;
+        border-radius: var(--border-radius);
+        margin: -1em;
+        vertical-align: super;
+        margin-right: 1em;
+    }
+
+    #navbar ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding-inline-start: 1em;
+        box-shadow: 0px 0px 7px #000000a6;
+        border-radius: inherit;
+        background: inherit;
+    }
+
+    #navbar li {
+        margin: 1em 1em 1em 0em;
+        padding: inherit;
+        border: none;
+    }
+
+    #navbar li::before {
+        content: none;
+    }
+
+    #navbar a {
+        text-decoration: none;
+        padding: 0.5em 1em;
+        color: white;
+        font-weight: bold;
+    }
+
+    #navbar a:hover {
+        background-color: #ffffff14;
+        border-radius: var(--border-radius);
+    }
+
+    .button {
+        margin: 0;
+        padding: 1em 2em !important;
+        background: #4285f4;
+        color: white;
+        overflow: auto;
+        border-radius: var(--border-radius);
+    }
+
+    #darkmode {
+        position: fixed;
+        z-index: 1;
+        top: 0.5em;
+        right: 1em;
+    }
+
+    #darkmode .button {
+        background: white;
+        text-align: center;
+        padding: 0.6em !important;
+        border-radius: 9em;
+        line-height: 1.2;
+        cursor: pointer;
+    }
+
+    #darkmode .button.dark {
+        background-color: black;
+        content: "a";
+    }
+
+    #github_ribbon p {
+        margin: 0;
+    }
+</style>
+
+<body>
+    <div id="content"></div>
+</body>
+<script>
+    const content = document.getElementById("content");
+    if (typeof hljs == 'undefined') var hljs;
+
+    const init = async () => {
+        config.elements.forEach((element) => loadElement(element));
+        await loadContent(window.location.hash);
+        loadChart()
+    };
+
+    const renderMD = async (path) => {
+        const res = await fetch(`${config.root}${path}.md`);
+        if (res.status != 200) return;
+        const markdown = await res.text();
+        return marked.parse(markdown,
+            {
+                baseUrl: "#/",
+                highlight: (code) => hljs ? hljs.highlightAuto(code).value : code,
+            });
+    }
+
+    const loadContent = async (hash) => {
+        // Hash routing
+        if (hash == '') hash = "/";
+        if (hash[0] == "#") hash = hash.slice(1);
+        if (hash.slice(-1) == "/") hash += "README";
+        if (hash.slice(-3) == ".md") hash = hash.slice(0, -3);
+
+        // Load Markdown
+        content.innerHTML = await renderMD(hash) || config.errorMessage || ''
+
+        // Reformat document
+        document
+            .querySelectorAll("#content input[type=checkbox]")
+            .forEach((checkbox) => {
+                checkbox.disabled = "";
+                checkbox.parentElement.parentElement.classList.add("checklist");
+            });
+        document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
+        document.body.classList.add("loaded");
+
+        // Clean Hash
+        hash = "#" + hash.replace(/(README$)/, '')
+        window.location.replace(hash);
+    };
+
+    const loadElement = async (element) => {
+        const elementHtml = await renderMD(element);
+        if (!elementHtml) return
+
+        let elementDiv = document.createElement('div');
+        elementDiv.innerHTML = elementHtml;
+        elementDiv.id = element;
+        document.body.prepend(elementDiv);
+    };
+
+    window.onload = init;
+    window.onhashchange = () => loadContent(window.location.hash);
+
+    const loadChart = () => {
+        console.log(document.getElementById('myChart'))
+        if (document.getElementById('myChart')) {
+            const labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+            ];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'My First dataset',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                }]
+            };
+            const config = {
+                type: 'line',
+                data: data,
+                options: {}
+            };
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        }
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+
+
+</html>
