@@ -21,6 +21,10 @@ Most modern Markdown components are supported, check [the examples](https://arna
 ### Customisation
 Edit the `config` variable in `index.html`.
 
+### Subdirectory install
+To install Raito in a subdirectory, just specify the folder relative to root in `config.root` in `index.html`.
+Check out the branch `subdir-example` for a working example at [http://localhost:8000/subdir_example/](http://localhost:8000/subdir_example/)
+
 ### Syntax Highlighting
 Uncomment the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
 This adds significant bundle size.
