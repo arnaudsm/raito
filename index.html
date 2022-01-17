@@ -309,7 +309,7 @@
     if (typeof hljs == 'undefined') var hljs;
 
     const init = async () => {
-        config.elements.forEach((element) => loadElement(element));
+        (config.elements || []).forEach((element) => loadElement(element));
         loadContent(window.location.hash);
     };
 
