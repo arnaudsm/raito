@@ -39,6 +39,9 @@ Components are visible in every page, and useful for navbars, sidebars and foote
 
 Create your component in a `.md` file, then add it to `config.json`.
 
+### Chart.js
+`Chart.js` support is not official yet, but check out this [setup example](https://github.com/arnaudsm/raito/tree/chartjs-example).
+
 ## Development
 ### Run locally
 Run a local HTTP server, and access http://localhost:8000 
