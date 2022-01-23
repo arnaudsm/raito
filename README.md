@@ -19,8 +19,8 @@ Place Markdown files in the directory. Folders redirect to `README.md`.
 Most modern Markdown components are supported, check [the examples](https://arnaud.at/raito/#/examples).
 
 
-### Absolute links
-All links to local markdown files should be absolute (don't starting with `/`).
+### Relative links
+All links to local markdown files should be relative (don't starting with `/`).
 Directory links (ending with `/`) will display the root `README.md`.
 
 ### Customisation
