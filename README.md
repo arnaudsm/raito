@@ -20,7 +20,7 @@ Most modern Markdown components are supported, check [the examples](https://arna
 
 
 ### Relative links
-All links to local markdown files should be relative (don't starting with `/`).
+All links to local markdown files should be relative (not starting with `/`).  
 Directory links (ending with `/`) will display the root `README.md`.
 
 ### Customisation
