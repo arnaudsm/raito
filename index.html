@@ -308,33 +308,83 @@
     const content = document.getElementById("content");
     if (typeof hljs == 'undefined') var hljs;
 
-    const init = async () => {
-        (config.elements || []).forEach((element) => loadElement(element));
-        loadContent(window.location.hash);
+    const getDirName = (hashStr) => {
+        hashStr = hashStr.replace(/^[\#]{0,1}\//, "");
+        return hashStr.substring(0, hashStr.lastIndexOf("/"));
     };
 
+    const isDir = (hashStr) => {
+        return hashStr.indexOf("/") != hashStr.lastIndexOf("/");
+    };
+
+    /**
+     * A non elegant, array push pop substitute,
+     * relative path to absolute solution I came up with
+     * Re-inventing wheels is fun
+     * */
+    const relPathToAbs = (str) => {
+        // Removing trailing slashes and any "//" mishaps
+        str = str.replace(/([\/]{2,})/g, "/").replace(/(^\/)/, "");
+        let isHashRoute = "";
+        if(str.indexOf("#/") == 0){
+            isHashRoute = "#/";
+            str = str.slice(2);
+        }
+        // Targeting characters other than "/" with accommodation for dir names that start with "." followed by /../
+        let rExp = /([^\.\/][^\/]*|[\.][^\.\/][^\/]*|[\.]{2}[^\/]+)\/\.\.\//g;
+        // Redundant self references, targeting $PWD before a dir pop to parent
+        str = str.replace(/(\.\/){2,}/g, "./").replace(/([^\/]+\/)\.\//g, "$1");
+        while(rExp.test(str)) str = str.replace(rExp, ""); // Sequential but global pops to parent
+        return isHashRoute
+            + encodeURI(str.replace(/(\.\.\/)+/g, "").replace(/(\.\/)+/g, "")); // Improve quality incase of GIGO
+    };
+
+    const resolveLinksAndEnforceSyntax = () => {
+        document.querySelectorAll("img[src^='/']").forEach(x => {
+            x.setAttribute("loading", "lazy");
+            x.src = x.src.replace(window.location.origin,"").replace(/^\//,"");
+        });
+        document.querySelectorAll("img[src^='#/']").forEach(x => {
+            x.setAttribute("loading", "lazy");
+            x.src = x.src.replace(/\#\//, "");
+        });
+        // Cleaning anchors to avoid circular references in hash routing
+        document.querySelectorAll("a[href^='#/']").forEach(x => {
+            x.href = relPathToAbs(x.hash);
+        });
+        // Links starting with "/" are ignored by marked.js's baseUrl
+        // and that's good for images. Not so much for anchors
+        document.querySelectorAll("a[href^='/']:not([href^='//'])").forEach(x => {
+            x.href = relPathToAbs("#" + x.pathname);
+        });
+    }
+
     const renderMD = async (path) => {
-        const res = await fetch(`${config.root}${path}.md`);
+        // Removing leading slash automatically makes fetch request inherit the rest of the path
+        const res = await fetch(`${path.replace(/^\//,"")}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
         return marked.parse(markdown,
             {
-                baseUrl: "#/",
+                baseUrl: ( isDir(path) ? `#/${getDirName(path)}/` : "#/" ),
                 highlight: (code) => hljs ? hljs.highlightAuto(code).value : code,
             });
     }
 
     const loadContent = async (hash) => {
         // Hash routing
+        let hashCopy = hash;
         if (hash == '') hash = "/";
         if (hash[0] == "#") hash = hash.slice(1);
         if (hash.slice(-1) == "/") hash += "README";
         if (hash.slice(-3) == ".md") hash = hash.slice(0, -3);
 
         // Load Markdown
-        content.innerHTML = await renderMD(hash) || config.errorMessage || ''
+        content.innerHTML = ""; // Doesn't carry scroll position b/w renders
+        content.innerHTML = await renderMD(hash) || config.errorMessage || '';
 
         // Reformat document
+        resolveLinksAndEnforceSyntax();
         document
             .querySelectorAll("#content input[type=checkbox]")
             .forEach((checkbox) => {
@@ -345,13 +395,18 @@
         document.body.classList.add("loaded");
 
         // Clean Hash
-        hash = "#" + hash.replace(/(README$)/, '')
-        window.location.replace(hash);
+        config.ignoreHashChange = true;
+        hash = relPathToAbs("#" + hash);
+        hash = hash.replace(/(README$)/, '');
+        if(hashCopy != hash)
+            window.location.replace(hash);
+        else
+            config.ignoreHashChange = false;
     };
 
     const loadElement = async (element) => {
         const elementHtml = await renderMD(element);
-        if (!elementHtml) return
+        if (!elementHtml) return;
 
         let elementDiv = document.createElement('div');
         elementDiv.innerHTML = elementHtml;
@@ -359,8 +414,22 @@
         document.body.prepend(elementDiv);
     };
 
+    const hashChangeEventHandler = (event) => {
+        if(!!!config.ignoreHashChange)
+            loadContent(window.location.hash);
+        else
+            config.ignoreHashChange = false;
+    };
+
+    const init = async () => {
+        (config.elements || []).forEach((element) => loadElement(element));
+        await loadContent(window.location.hash);
+    };
+
+    window.onhashchange = hashChangeEventHandler;
+
     window.onload = init;
-    window.onhashchange = () => loadContent(window.location.hash);
+    
 </script>
 
 </html>
