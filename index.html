@@ -361,7 +361,8 @@
 
     const renderMD = async (path) => {
         // Removing leading slash automatically makes fetch request inherit the rest of the path
-        const res = await fetch(`${path.replace(/^\//,"")}.md`);
+        path = relPathToAbs("#/" + path.replace(/^\//,""));
+        const res = await fetch(`${path.replace(/^\#\//,"")}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
         return marked.parse(markdown,
