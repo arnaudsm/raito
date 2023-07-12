@@ -6,9 +6,10 @@ Directory links (ending with `/`) will display the root `README.md`.
 
 ```
 ├── folder
-│   └── page.md   = example.com/#/folder/page
-├── about.md      = example.com/#/about
-├── README.md     = example.com/#/
+│   ├── page.md    = example.com/#/folder/page
+│   └── README.md  = example.com/#/folder/
+├── about.md       = example.com/#/about
+├── README.md      = example.com/#/
 └── index.html
 ```
 
