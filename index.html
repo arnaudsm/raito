@@ -309,8 +309,12 @@
 <script>
     marked.use({
         walkTokens: (token) => {
-            if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href))
+            // If relative URL
+            if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href)) {
                 token.href = "#/" + token.href
+                if (token.href.endsWith("README"))
+                    token.href = token.href.slice(0, -6)
+            }
         }
     })
     const content = document.getElementById("content");
@@ -332,6 +336,7 @@
     }
 
     const loadContent = async (hash) => {
+        console.log("loadContent");
         // Hash routing
         if (hash == '') hash = "/";
         if (hash[0] == "#") hash = hash.slice(1);
