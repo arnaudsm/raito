@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      
+      - name: Yarn install
+        run:  yarn
+
+      - name: Chromium install
+        run: npx playwright install chromium
+
+      - name: Test
+        run: yarn test
