@@ -8,7 +8,7 @@ Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
-**[🔥 Demo](https://arnaud.at/raito) | [📄 Documentation](docs)**
+**[🔥 Demo](https://arnaud.at/raito) | [📄 Documentation](docs.md)**
 
 ## Install
 - Copy `index.html` to your website root
