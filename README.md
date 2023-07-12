@@ -1,6 +1,6 @@
 ![logo](logo.svg)
 
-# [Raito](https://arnaud.at/raito) | Mini Markdown CMS ✨📝
+# [Raito](https://raito.arnaud.at) | Mini Markdown CMS ✨📝
 > Build your website with a single file!
 
 Raito is an ultralight static CMS/Wiki that weights 8kb.  
@@ -8,7 +8,7 @@ Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
-**[🔥 Demo](https://arnaud.at/raito) | [📄 Docs](docs.md)**
+**[🔥 Demo](https://raito.arnaud.at) | [📄 Docs](docs.md)**
 
 ## Install
 - Copy `index.html` to your website root
