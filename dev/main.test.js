@@ -4,6 +4,7 @@ const isHomePage = async (page) => {
     await expect(page).toHaveURL("/#/")
     await expect(page).toHaveTitle("Raito | Mini Markdown CMS ✨📝 | Raito")
     await expect(page.getByRole('link', { name: 'Raito Logo Home' })).toBeVisible()
+    await expect(await page.locator('#content img').getAttribute("src")).toEqual("logo.svg")
     await expect(await page.getByText("Arnaud de Saint Meloir").getAttribute('href')).toEqual("https://arnaud.at")
     await expect(await page.getByText("the examples").getAttribute('href')).toEqual("#/examples")
 }

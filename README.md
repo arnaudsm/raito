@@ -1,4 +1,4 @@
-<img src="logo.svg" height="200" style="margin: auto;"/>
+![logo](logo.svg)
 
 # [Raito](https://arnaud.at/raito) | Mini Markdown CMS ✨📝
 > Build your website with a single file!
@@ -25,10 +25,6 @@ Directory links (ending with `/`) will display the root `README.md`.
 
 ### Customisation
 Edit the `config` variable in `index.html`.
-
-### Subdirectory install
-To install Raito in a subdirectory, just specify the folder relative to root in `config.root` in `index.html`.
-Check out the branch `subdir-example` for a working example at [http://localhost:8000/subdir_example/](http://localhost:8000/subdir_example/)
 
 ### Syntax Highlighting
 Uncomment the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.

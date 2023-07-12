@@ -11,19 +11,19 @@ Output
 ## Tables
 Markdown
 ```markdown
-| Ingredient    | Quantity      | Price  |
-| ------------- |---------------|--------|
-| Milk          | 1L            | $5     |
-| Flour         | 350g          | $2     |
-| Eggs          | 6             | $6.50  |
+| Ingredient | Quantity | Price |
+| ---------- | -------- | ----- |
+| Milk       | 1L       | $5    |
+| Flour      | 350g     | $2    |
+| Eggs       | 6        | $6.50 |
 ```
 
 Output
-| Ingredient    | Quantity      | Price  |
-| ------------- |---------------|--------|
-| Milk          | 1L            | $5     |
-| Flour         | 350g          | $2     |
-| Eggs          | 6             | $6.50  |
+| Ingredient | Quantity | Price |
+| ---------- | -------- | ----- |
+| Milk       | 1L       | $5    |
+| Flour      | 350g     | $2    |
+| Eggs       | 6        | $6.50 |
 
 ## Checklists
 Markdown
@@ -70,3 +70,13 @@ Markdown
 Output
 
 [Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+## Images
+Markdown
+```markdown
+![logo](logo.svg)
+```
+Output
+
+![logo](logo.svg)
+
