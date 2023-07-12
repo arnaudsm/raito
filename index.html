@@ -8,16 +8,7 @@
     <link rel="icon" href="/logo.svg" sizes="any" type="image/svg+xml">
 </head>
 
-<!-- Marked - Markdown to HTML library -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<!-- OPTIONAL : Highlight.js - Syntax Highlighting -->
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
--->
-
-<!-- Configure me! -->
+<!-- USER CONFIG -->
 <script>
     const config = {
         root: "", // Website Root URL. Eg: "/raito/" 
@@ -26,6 +17,21 @@
         errorMessage: "Page not found"
     }
 </script>
+<style>
+    #github_ribbon p {
+        margin: 0;
+    }
+</style>
+<!-- USER CONFIG -->
+
+<!-- Marked - Markdown to HTML library -->
+<script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/marked.min.js"></script>>
+
+<!-- OPTIONAL : Highlight.js for Syntax Highlighting -->
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
+-->
 
 <style>
     :root {
@@ -295,16 +301,18 @@
         background-color: black;
         content: "a";
     }
-
-    #github_ribbon p {
-        margin: 0;
-    }
 </style>
 
 <body>
     <div id="content"></div>
 </body>
 <script>
+    marked.use({
+        walkTokens: (token) => {
+            if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href))
+                token.href = "#/" + token.href
+        }
+    })
     const content = document.getElementById("content");
     if (typeof hljs == 'undefined') var hljs;
 
@@ -314,12 +322,11 @@
     };
 
     const renderMD = async (path) => {
-        const res = await fetch(`${config.root}${path}.md`);
+        const res = await fetch(`${config.root || ""}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
         return marked.parse(markdown,
             {
-                baseUrl: "#/",
                 highlight: (code) => hljs ? hljs.highlightAuto(code).value : code,
             });
     }
