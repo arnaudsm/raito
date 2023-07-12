@@ -1,2 +1,2 @@
-- [![Raito Logo](/logo.svg) Home](README)
-- [Examples](examples)
+- [![Raito Logo](/logo.svg) Home](README.md)
+- [Docs](docs.md)
