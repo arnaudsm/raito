@@ -39,3 +39,16 @@ test('Anchors', async ({ page }) => {
     await page.getByText("📄 Docs").click()
     await expect(page).toHaveURL("/#/docs")
 })
+
+test('Subdirectory', async ({ page }) => {
+    await page.goto('/#/subdirectory/a')
+    await expect(page).toHaveURL("/#/subdirectory/a")
+    await expect(await page.getByRole('link', { name: 'Raito Logo Home' }).getAttribute('href')).toEqual("#/")
+    await expect(await page.getByText("Docs").getAttribute('href')).toEqual("#/docs")
+
+    await page.getByText("b").click()
+    await expect(page).toHaveURL("/#/subdirectory/b")
+
+    await page.getByText("a").click()
+    await expect(page).toHaveURL("/#/subdirectory/a")
+})

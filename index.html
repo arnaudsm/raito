@@ -308,22 +308,38 @@
     <div id="content"></div>
 </body>
 <script>
+    const content = document.getElementById("content");
+    if (typeof hljs == 'undefined') var hljs;
+    let cwd = "#/";
+
+    // Rewrite relative URLs
     marked.use({
         walkTokens: (token) => {
-            // If relative URL
             if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href)) {
-                token.href = "#/" + token.href
+                token.href = cwd + token.href
+
+                if (token.href.endsWith(".md"))
+                    token.href = token.href.slice(0, -3)
+
                 if (token.href.endsWith("README"))
                     token.href = token.href.slice(0, -6)
+
+                // Resolve paths
+                token.href = token.href.split('/')
+                    .reduce((a, v) => {
+                        if (v === '.');
+                        else if (v === '..') a.pop();
+                        else a.push(v);
+                        return a;
+                    }, [])
+                    .join('/')
             }
         }
     })
-    const content = document.getElementById("content");
-    if (typeof hljs == 'undefined') var hljs;
 
     const init = async () => {
-        (config.elements || []).forEach((element) => loadElement(element));
-        loadContent(window.location.hash);
+        await Promise.all((config.elements || []).map((element) => loadElement(element)));
+        await loadContent();
     };
 
     const renderMD = async (path) => {
@@ -336,9 +352,11 @@
             });
     }
 
-    const loadContent = async (hash) => {
-        console.log("loadContent");
+    const loadContent = async () => {
+        cwd = window.location.hash.substr(0, window.location.hash.lastIndexOf("/")) + "/";
+
         // Hash routing
+        let hash = window.location.hash;
         if (hash == '') hash = "/";
         if (hash[0] == "#") hash = hash.slice(1);
         if (hash.slice(-1) == "/") hash += "README";
@@ -374,7 +392,7 @@
     };
 
     window.onload = init;
-    window.onhashchange = () => loadContent(window.location.hash);
+    window.onhashchange = () => loadContent();
 </script>
 
 </html>

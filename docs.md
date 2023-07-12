@@ -31,6 +31,12 @@ Output
 
 [Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
+## Local Links
+
+```markdown
+[homepage](README.md)
+[subdirectory page](subdirectory/a.md)
+```
 
 ## Blockquotes
 Markdown
