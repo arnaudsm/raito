@@ -1,4 +1,36 @@
-# Examples
+# Docs
+
+## Pages
+Links to local markdown files should be relative (not starting with `/`).  
+Directory links (ending with `/`) will display the root `README.md`.
+
+```
+├── folder
+│   └── page.md   = example.com/#/folder/page
+├── about.md      = example.com/#/about
+├── README.md     = example.com/#/
+└── index.html
+```
+
+### Config
+All the config flags are in the the `config` variable in `index.html`.
+
+### Components
+Components are visible in every page, and useful for navbars, sidebars and footers.
+
+Create your component in a `.md` file, then add it to `config.json`.
+
+
+## Links
+Markdown
+```markdown
+[Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+```
+Output
+
+[Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+
 ## Blockquotes
 Markdown
 ```markdown
@@ -62,14 +94,8 @@ var foo = function (bar) {
   return bar++;
 };
 ```
-## Links
-Markdown
-```markdown
-[Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-```
-Output
 
-[Here's a link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+Synthax highlighting is optional. Enable by uncommenting the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
 
 ## Images
 Markdown

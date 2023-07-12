@@ -8,32 +8,13 @@ Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
-Check the [Demo 🔥](https://arnaud.at/raito)
+**[🔥 Demo](https://arnaud.at/raito) | [📄 Documentation](docs)**
 
 ## Install
-Just drop `index.html` in your website root.
+- Copy `index.html` to your website root
+- Create `README.md` to write your homepage
+- Every MarkDown file will turn into a page ✨
 
-## Usage
-Place Markdown files in the directory. Folders redirect to `README.md`. 
-
-Most modern Markdown components are supported, check [the examples](examples).
-
-
-### Relative links
-All links to local markdown files should be relative (not starting with `/`).  
-Directory links (ending with `/`) will display the root `README.md`.
-
-### Customisation
-Edit the `config` variable in `index.html`.
-
-### Syntax Highlighting
-Uncomment the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
-This adds significant bundle size.
-
-### Components
-Components are visible in every page, and useful for navbars, sidebars and footers.
-
-Create your component in a `.md` file, then add it to `config.json`.
 
 ## Development
 - Install Node 16+ and Yarn
