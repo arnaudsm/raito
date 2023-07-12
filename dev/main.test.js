@@ -36,6 +36,6 @@ test('Navbar', async ({ page }) => {
 test('Anchors', async ({ page }) => {
     await page.goto('/')
     await expect(page).toHaveURL("/#/")
-    await page.getByText("Documentation").click()
+    await page.getByText("📄 Docs").click()
     await expect(page).toHaveURL("/#/docs")
 })
