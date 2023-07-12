@@ -27,7 +27,7 @@ jobs:
         run:  yarn
 
       - name: Chromium install
-        run: npx playwright install-deps chromium
+        run: npx playwright install chromium
 
       - name: Test
         run: yarn test
