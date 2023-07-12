@@ -1,0 +1,16 @@
+{
+  "name": "raito-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "http-server -p 8000 ..",
+    "test": "npx playwright test",
+    "debug": "npx playwright test --ui"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.36.0",
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name : Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Test
+        run: cd dev && yarn && yarn test
