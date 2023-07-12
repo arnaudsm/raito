@@ -354,6 +354,7 @@
 
     const loadContent = async () => {
         cwd = window.location.hash.substr(0, window.location.hash.lastIndexOf("/")) + "/";
+        if (cwd == "/") cwd = "#/"
 
         // Hash routing
         let hash = window.location.hash;
@@ -378,7 +379,7 @@
 
         // Clean Hash
         hash = "#" + hash.replace(/(README$)/, '')
-        window.location.replace(hash);
+        window.history.pushState({}, document.title, hash)
     };
 
     const loadElement = async (element) => {
