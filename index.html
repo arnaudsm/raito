@@ -339,6 +339,7 @@
         if (hash.slice(-3) == ".md") hash = hash.slice(0, -3);
 
         // Load Markdown
+        content.innerHTML = ""; // Reset scroll position
         content.innerHTML = await renderMD(hash) || config.errorMessage || ''
 
         // Reformat document
