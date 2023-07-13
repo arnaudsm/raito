@@ -11,24 +11,25 @@
 <!-- USER CONFIG -->
 <script>
     const config = {
-        sitePath: "/#/",
+        sitePath: "/",
+        hashRouting: true,
         contentPath: "/",
         name: "Raito",
         components: ["navbar", "github_ribbon"],
         errorMessage: "Page not found"
     }
 </script>
+
 <style>
     #github_ribbon p {
         margin: 0;
     }
 </style>
-<!-- USER CONFIG -->
 
-<!-- Marked - Markdown to HTML library -->
+<!-- Marked.js - Markdown renderer -->
 <script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/marked.min.js"></script>
 
-<!-- OPTIONAL : Highlight.js for Syntax Highlighting -->
+<!-- OPTIONAL : Highlight.js - Syntax Highlighting -->
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
@@ -313,6 +314,7 @@
     const componentsDiv = document.getElementById("components");
 
     if (typeof hljs == 'undefined') var hljs;
+    if (config.hashRouting) config.sitePath = config.sitePath + "#/"
     let cwd = "";
 
     // Rewrite relative URLs
@@ -364,7 +366,10 @@
 
     const loadContent = async () => {
         let path = window.location.pathname + window.location.hash;
-        cwd = path.substr(0, path.lastIndexOf("/"));
+
+        cwd = path.substr(0, path.lastIndexOf("/")) + "/";
+        if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length)
+
         if (path.slice(-1) == "/") path += "README";
         if (path.slice(-3) == ".md") path = path.slice(0, -3);
         if (path.startsWith(config.sitePath)) path = path.slice(config.sitePath.length)
@@ -383,6 +388,11 @@
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
         document.body.classList.add("loaded");
+
+        if (config.hashRouting) {
+            const hash = config.sitePath + path.replace(/(README$)/, '')
+            window.location.replace(hash);
+        }
     };
 
     window.onload = init;

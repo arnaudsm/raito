@@ -26,13 +26,13 @@ Create your component in a `.md` file, then add it to `config.json`.
 Markdown
 ```markdown
 - [Absolute Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-- [Relative Link](subdirectory/b.md)
+- [Relative Link](subdir/b.md)
 - [Parent Page](README.md)
 ```
 Output
 
 - [Absolute Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-- [Relative Link](subdirectory/b.md)
+- [Relative Link](subdir/b.md)
 - [Parent Page](README.md)
 
 ## Blockquotes
