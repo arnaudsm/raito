@@ -322,11 +322,7 @@
         walkTokens: (token) => {
             if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href)) {
                 token.href = config.sitePath + cwd + token.href
-                if (token.href.endsWith(".md"))
-                    token.href = token.href.slice(0, -3)
-
-                if (token.href.endsWith("README"))
-                    token.href = token.href.slice(0, -6)
+                token.href = cleanPath(token.href)
 
                 // Resolve paths
                 token.href = token.href.split('/')
@@ -348,6 +344,7 @@
     };
 
     const renderMD = async (path) => {
+        if (path.slice(-1) == "/" || path == "") path += "README";
         const res = await fetch(`${config.contentPath}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
@@ -364,16 +361,19 @@
         componentsDiv.prepend(div);
     };
 
+    const cleanPath = (path) => {
+        if (path.slice(-3) == ".md") path = path.slice(0, -3);
+        if (path.endsWith("README")) path = path.slice(0, -6)
+        return path;
+    }
+
     const loadContent = async () => {
         let path = window.location.pathname + window.location.hash;
 
         cwd = path.substr(0, path.lastIndexOf("/")) + "/";
         if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length)
-
-        if (path.slice(-1) == "/") path += "README";
-        if (path.slice(-3) == ".md") path = path.slice(0, -3);
         if (path.startsWith(config.sitePath)) path = path.slice(config.sitePath.length)
-        if (path[0] == "/") path = path.slice(1);
+        path = cleanPath(path)
 
         // Load Markdown
         contentDiv.innerHTML = ""; // Reset scroll position
@@ -389,10 +389,8 @@
             });
         document.body.classList.add("loaded");
 
-        if (config.hashRouting) {
-            const hash = config.sitePath + path.replace(/(README$)/, '')
-            window.location.replace(hash);
-        }
+        if (config.hashRouting)
+            window.location.replace(config.sitePath + path);
     };
 
     window.onload = init;
