@@ -1,9 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
+import { test } from "./playwright.config"
 
-const prefix = "/#"
-const baseUrl = "http://localhost:3000" + prefix
-
-const isHomePage = async (page) => {
+const isHomePage = async ({ page, prefix, baseUrl }) => {
     await expect(page).toHaveURL(baseUrl + "/")
     await expect(page).toHaveTitle("Raito | Mini Markdown CMS ✨📝 | Raito")
     await expect(page.getByRole('link', { name: 'Raito Logo Home' })).toBeVisible()
@@ -11,41 +9,41 @@ const isHomePage = async (page) => {
     await expect(await page.getByText("Arnaud de Saint Meloir").getAttribute('href')).toEqual("https://arnaud.at")
 }
 
-const isDocsPage = async (page) => {
+const isDocsPage = async ({ page, prefix, baseUrl }) => {
     await expect(page).toHaveURL(baseUrl + "/docs")
     await expect(page).toHaveTitle("Docs | Raito")
     await expect(page.getByRole('heading', { name: 'Docs' })).toBeVisible()
     await expect(await page.getByRole('link', { name: 'Absolute Link' }).getAttribute('href')).toEqual("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-    await expect(await page.getByRole('link', { name: 'Relative Link' }).getAttribute('href')).toEqual("/#/subdir/b")
+    await expect(await page.getByRole('link', { name: 'Relative Link' }).getAttribute('href')).toEqual(prefix + "/subdir/b")
 }
 
-test('Homepage', async ({ page }) => {
+test('Homepage', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
-    await isHomePage(page)
+    await isHomePage({ page, prefix, baseUrl })
 })
 
-test('Docs', async ({ page }) => {
+test('Docs', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/docs')
-    await isDocsPage(page)
+    await isDocsPage({ page, prefix, baseUrl })
 })
 
-test('Navbar', async ({ page }) => {
+test('Navbar', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
-    await isHomePage(page)
+    await isHomePage({ page, prefix, baseUrl })
     await page.locator("#navbar").getByText("Docs").click()
-    await isDocsPage(page)
+    await isDocsPage({ page, prefix, baseUrl })
     await page.locator("#navbar").getByText("Home").click()
-    await isHomePage(page)
+    await isHomePage({ page, prefix, baseUrl })
 })
 
-test('Anchors', async ({ page }) => {
+test('Anchors', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
     await expect(page).toHaveURL(baseUrl + "/")
     await page.getByText("📄 Docs").click()
     await expect(page).toHaveURL(baseUrl + "/docs")
 })
 
-test('History', async ({ page }) => {
+test('History', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
     await page.getByText("📄 Docs").click()
     await expect(page).toHaveURL(baseUrl + "/docs")
@@ -55,13 +53,13 @@ test('History', async ({ page }) => {
     await expect(page).toHaveURL(baseUrl + "/docs")
 })
 
-test('Subdirectories', async ({ page }) => {
+test('Subdirectories', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/subdir/a')
     await expect(page).toHaveURL(baseUrl + "/subdir/a")
     await expect(await page.getByRole('link', { name: 'Raito Logo Home' }).getAttribute('href')).toEqual(prefix + "/")
     await expect(await page.getByText("Docs").getAttribute('href')).toEqual(prefix + "/docs")
-    await expect(await page.getByText("Homepage #1").getAttribute('href')).toEqual(prefix)
-    await expect(await page.getByText("Homepage #2").getAttribute('href')).toEqual(prefix)
+    await expect(await page.getByText("Homepage #1").getAttribute('href')).toEqual(prefix || "/")
+    await expect(await page.getByText("Homepage #2").getAttribute('href')).toEqual(prefix || "/")
 
     await page.getByText("b").click()
     await expect(page).toHaveURL(baseUrl + "/subdir/b")
@@ -70,6 +68,6 @@ test('Subdirectories', async ({ page }) => {
     await expect(page).toHaveURL(baseUrl + "/subdir/a")
 
     await page.goto(baseUrl + '/subdir/subsubdir/c')
-    await expect(await page.getByText("b").getAttribute('href')).toEqual("/#/subdir/b")
-    await expect(await page.getByText("Homepage").getAttribute('href')).toEqual(prefix)
+    await expect(await page.getByText("b").getAttribute('href')).toEqual(prefix + "/subdir/b")
+    await expect(await page.getByText("Homepage").getAttribute('href')).toEqual(prefix || "/")
 })

@@ -6,13 +6,13 @@ import fs from "fs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-const startHashServer = () => {
+const hashServer = () => {
   const app = Fastify({ logger: true });
   app.register(fastifyStatic, { root });
   app.listen({ port: 3000 });
 }
 
-const startStarServer = () => {
+const starServer = () => {
   const app = Fastify({ logger: true });
   let html = fs.readFileSync("../index.html", "utf-8")
     .replace("hashRouting: true,", "hashRouting: false,")
@@ -28,5 +28,6 @@ const startStarServer = () => {
   app.listen({ port: 3001 });
 };
 
-startHashServer()
-startStarServer()
+// Raito supports hash routing and star routing, we will test both
+hashServer();
+starServer();
