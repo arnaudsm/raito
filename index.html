@@ -11,9 +11,10 @@
 <!-- USER CONFIG -->
 <script>
     const config = {
-        root: "", // Website Root URL. Eg: "/raito/" 
+        sitePath: "/#/",
+        contentPath: "/",
         name: "Raito",
-        elements: ["navbar", "github_ribbon"],
+        components: ["navbar", "github_ribbon"],
         errorMessage: "Page not found"
     }
 </script>
@@ -25,7 +26,7 @@
 <!-- USER CONFIG -->
 
 <!-- Marked - Markdown to HTML library -->
-<script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/marked.min.js"></script>>
+<script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/marked.min.js"></script>
 
 <!-- OPTIONAL : Highlight.js for Syntax Highlighting -->
 <!--
@@ -62,7 +63,6 @@
         padding: 0;
         background-color: var(--background-color);
         opacity: 0;
-        transition: opacity 0.3s;
     }
 
     body.loaded {
@@ -305,19 +305,21 @@
 </style>
 
 <body>
+    <div id="components"></div>
     <div id="content"></div>
 </body>
 <script>
-    const content = document.getElementById("content");
+    const contentDiv = document.getElementById("content");
+    const componentsDiv = document.getElementById("components");
+
     if (typeof hljs == 'undefined') var hljs;
-    let cwd = "#/";
+    let cwd = "";
 
     // Rewrite relative URLs
     marked.use({
         walkTokens: (token) => {
             if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href)) {
-                token.href = cwd + token.href
-
+                token.href = config.sitePath + cwd + token.href
                 if (token.href.endsWith(".md"))
                     token.href = token.href.slice(0, -3)
 
@@ -333,62 +335,54 @@
                         return a;
                     }, [])
                     .join('/')
+                if (token.href == "") token.href = "/"
             }
         }
     })
 
     const init = async () => {
-        await Promise.all((config.elements || []).map((element) => loadElement(element)));
+        await Promise.all((config.components || []).map((component) => loadComponent(component)));
         await loadContent();
     };
 
     const renderMD = async (path) => {
-        const res = await fetch(`${config.root || ""}${path}.md`);
+        const res = await fetch(`${config.contentPath}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
-        return marked.parse(markdown,
-            {
-                highlight: (code) => hljs ? hljs.highlightAuto(code).value : code,
-            });
+        return marked.parse(markdown, { highlight: (code) => hljs ? hljs.highlightAuto(code).value : code });
     }
 
-    const loadContent = async () => {
-        cwd = window.location.hash.substr(0, window.location.hash.lastIndexOf("/")) + "/";
+    const loadComponent = async (element) => {
+        const html = await renderMD(element);
+        if (!html) return
 
-        // Hash routing
-        let hash = window.location.hash;
-        if (hash == '') hash = "/";
-        if (hash[0] == "#") hash = hash.slice(1);
-        if (hash.slice(-1) == "/") hash += "README";
-        if (hash.slice(-3) == ".md") hash = hash.slice(0, -3);
+        let div = document.createElement('div');
+        div.innerHTML = html;
+        div.id = element;
+        componentsDiv.prepend(div);
+    };
+
+    const loadContent = async () => {
+        let path = window.location.pathname + window.location.hash;
+        cwd = path.substr(0, path.lastIndexOf("/"));
+        if (path.slice(-1) == "/") path += "README";
+        if (path.slice(-3) == ".md") path = path.slice(0, -3);
+        if (path.startsWith(config.sitePath)) path = path.slice(config.sitePath.length)
+        if (path[0] == "/") path = path.slice(1);
 
         // Load Markdown
-        content.innerHTML = ""; // Reset scroll position
-        content.innerHTML = await renderMD(hash) || config.errorMessage || ''
+        contentDiv.innerHTML = ""; // Reset scroll position
+        contentDiv.innerHTML = await renderMD(path) || config.errorMessage || '';
 
         // Reformat document
+        document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
         document
             .querySelectorAll("#content input[type=checkbox]")
             .forEach((checkbox) => {
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
-        document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
         document.body.classList.add("loaded");
-
-        // Clean Hash
-        hash = "#" + hash.replace(/(README$)/, '')
-        window.location.replace(hash);
-    };
-
-    const loadElement = async (element) => {
-        const elementHtml = await renderMD(element);
-        if (!elementHtml) return
-
-        let elementDiv = document.createElement('div');
-        elementDiv.innerHTML = elementHtml;
-        elementDiv.id = element;
-        document.body.prepend(elementDiv);
     };
 
     window.onload = init;
