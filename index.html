@@ -332,14 +332,14 @@
 	});
 	marked.use({
 		extensions: [{
-			name: 'import',
+			name: 'include',
 			level: 'inline',
-			start: (src) => src.indexOf("import("),
+			start: (src) => src.indexOf("include("),
 			tokenizer(src) {
-				const match = /^import\(([\w.-]+)\)/.exec(src);
+				const match = /^include\(([\w.-]+)\)/.exec(src);
 				if (match) {
 					return {
-						type: 'import',
+						type: 'include',
 						raw: match[0],
 						url: match[1],
 						html: '' // will be replaced in walkTokens
@@ -350,7 +350,7 @@
 		}],
 		async: true,
 		async walkTokens(token) {
-			if (token.type === 'import') {
+			if (token.type === 'include') {
 				token.url = cleanPath(token.url)
 				token.html = await renderMD(token.url)
 			}

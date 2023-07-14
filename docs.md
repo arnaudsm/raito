@@ -132,7 +132,7 @@ Output ⬇️
 
 ## Include
 ```markdown
-import(include.md)
+include(include.md)
 ```
 Output ⬇️
-import(include.md)
+include(include.md)
