@@ -121,3 +121,11 @@ Output ⬇️
 
 ![logo](logo.svg)
 
+
+## HTML
+```markdown
+<a href="https://youtu.be/ZxGiEoczryg" class="button">My favorite album</a>
+```
+Output ⬇️
+
+<a href="https://youtu.be/ZxGiEoczryg" class="button">My favorite album</a>
