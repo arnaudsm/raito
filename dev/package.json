@@ -5,12 +5,15 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "start": "http-server -p 8000 ..",
+    "start": "node server.js",
     "test": "npx playwright test",
     "debug": "npx playwright test --ui"
   },
   "dependencies": {
+    "@fastify/static": "^6.10.2",
     "@playwright/test": "^1.36.0",
-    "http-server": "^14.1.1"
-  }
+    "fastify": "^4.19.2",
+    "nodemon": "^3.0.1"
+  },
+  "devDependencies": {}
 }

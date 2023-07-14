@@ -11,23 +11,77 @@
 <!-- USER CONFIG -->
 <script>
     const config = {
-        root: "", // Website Root URL. Eg: "/raito/" 
+        sitePath: "/",
+        browserRouter: false,
         name: "Raito",
-        elements: ["navbar", "github_ribbon"],
+        components: ["navbar", "github_ribbon"],
         errorMessage: "Page not found"
     }
 </script>
+
 <style>
     #github_ribbon p {
         margin: 0;
     }
+
+    /* Navbar */
+    #navbar {
+        width: 100%;
+        background-color: var(--color-1);
+        color: white;
+        margin: 0;
+        position: fixed;
+        box-shadow: 0px 0px 16px #00000047;
+        padding-left: 2rem;
+        z-index: 5;
+    }
+
+    #navbar>ul>li>a>img {
+        border-radius: var(--border-radius);
+        margin: -1em 0;
+        vertical-align: super;
+        margin-right: .5em;
+        max-height: 2em;
+        width: 2rem;
+    }
+
+    #navbar ul {
+        display: flex;
+        gap: 1rem;
+        list-style: none;
+        margin: 0;
+        border-radius: inherit;
+        background: inherit;
+        border: none;
+    }
+
+    #navbar li {
+        margin: 1.4rem 0rem;
+        padding: inherit;
+        border: none;
+    }
+
+    #navbar li::before {
+        content: none;
+    }
+
+    #navbar a {
+        text-decoration: none;
+        padding: 0.9em 1.1em;
+        color: white;
+        font-weight: bold;
+    }
+
+    #navbar a:hover {
+        background-color: #ffffff14;
+        border-radius: var(--border-radius);
+    }
 </style>
-<!-- USER CONFIG -->
 
-<!-- Marked - Markdown to HTML library -->
-<script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/marked.min.js"></script>>
+<!-- Marked.js - Markdown renderer -->
+<script src="https://cdn.jsdelivr.net/npm/marked@5.1.1/marked.min.js"></script>
 
-<!-- OPTIONAL : Highlight.js for Syntax Highlighting -->
+<!-- OPTIONAL : Highlight.js - Syntax Highlighting -->
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/base16/solarized-dark.min.css">
@@ -74,8 +128,12 @@
     h3,
     h4,
     h5 {
-        border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.3em;
+    }
+
+    h1,
+    h2 {
+        border-bottom: 1px solid var(--border-color);
     }
 
     a {
@@ -135,13 +193,14 @@
 
     /* Table */
     table {
-        overflow: hidden;
         border-collapse: collapse;
         margin: 2em 0;
         font-size: 0.9em;
         font-family: sans-serif;
         min-width: 20em;
         border-radius: var(--border-radius);
+        overflow: auto;
+        display: block;
     }
 
     table thead tr {
@@ -222,57 +281,6 @@
         background: inherit;
     }
 
-    /* Navbar */
-    #navbar {
-        position: relative;
-        width: 100%;
-        background-color: var(--color-1);
-        color: white;
-        margin: 0;
-        position: fixed;
-    }
-
-    #navbar>ul>li>a>img {
-        border-radius: var(--border-radius);
-        margin: -1em 0;
-        vertical-align: super;
-        margin-right: .5em;
-        max-height: 2em;
-        width: 2rem;
-    }
-
-    #navbar ul {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding-inline-start: 1em;
-        box-shadow: 0px 0px 7px #000000a6;
-        border-radius: inherit;
-        background: inherit;
-    }
-
-    #navbar li {
-        margin: 1em 1em 1em 0em;
-        padding: inherit;
-        border: none;
-    }
-
-    #navbar li::before {
-        content: none;
-    }
-
-    #navbar a {
-        text-decoration: none;
-        padding: 0.5em 1em;
-        color: white;
-        font-weight: bold;
-    }
-
-    #navbar a:hover {
-        background-color: #ffffff14;
-        border-radius: var(--border-radius);
-    }
-
     .button {
         margin: 0;
         padding: 1em 2em !important;
@@ -305,24 +313,24 @@
 </style>
 
 <body>
+    <div id="components"></div>
     <div id="content"></div>
 </body>
 <script>
-    const content = document.getElementById("content");
+    const contentDiv = document.getElementById("content");
+    const componentsDiv = document.getElementById("components");
+
     if (typeof hljs == 'undefined') var hljs;
-    let cwd = "#/";
+    config.contentPath = config.sitePath;
+    if (!config.browserRouter) config.sitePath = config.sitePath + "#/"
+    let cwd = "";
 
     // Rewrite relative URLs
     marked.use({
         walkTokens: (token) => {
             if ('link' == token.type && !/^[a-z]*:\/\/*\b/.test(token.href)) {
-                token.href = cwd + token.href
-
-                if (token.href.endsWith(".md"))
-                    token.href = token.href.slice(0, -3)
-
-                if (token.href.endsWith("README"))
-                    token.href = token.href.slice(0, -6)
+                token.href = config.sitePath + cwd + token.href
+                token.href = cleanPath(token.href)
 
                 // Resolve paths
                 token.href = token.href.split('/')
@@ -333,66 +341,83 @@
                         return a;
                     }, [])
                     .join('/')
+                if (token.href == "") token.href = "/"
             }
         }
     })
 
     const init = async () => {
-        await Promise.all((config.elements || []).map((element) => loadElement(element)));
+        await Promise.all((config.components || []).map((component) => loadComponent(component)));
         await loadContent();
     };
 
     const renderMD = async (path) => {
-        const res = await fetch(`${config.root || ""}${path}.md`);
+        if (path.slice(-1) == "/" || path == "") path += "README";
+        const res = await fetch(`${config.contentPath}${path}.md`);
         if (res.status != 200) return;
         const markdown = await res.text();
-        return marked.parse(markdown,
-            {
-                highlight: (code) => hljs ? hljs.highlightAuto(code).value : code,
-            });
+        return marked.parse(markdown, { highlight: (code) => hljs ? hljs.highlightAuto(code).value : code });
+    }
+
+    const loadComponent = async (element) => {
+        const html = await renderMD(element);
+        if (!html) return
+
+        let div = document.createElement('div');
+        div.innerHTML = html;
+        div.id = element;
+        componentsDiv.prepend(div);
+    };
+
+    const cleanPath = (path) => {
+        if (path.slice(-3) == ".md") path = path.slice(0, -3);
+        if (path.endsWith("README")) path = path.slice(0, -6)
+        return path;
     }
 
     const loadContent = async () => {
-        cwd = window.location.hash.substr(0, window.location.hash.lastIndexOf("/")) + "/";
+        let path = window.location.pathname + window.location.hash;
+        if (!config.browserRouter && path == "/") path = config.sitePath
 
-        // Hash routing
-        let hash = window.location.hash;
-        if (hash == '') hash = "/";
-        if (hash[0] == "#") hash = hash.slice(1);
-        if (hash.slice(-1) == "/") hash += "README";
-        if (hash.slice(-3) == ".md") hash = hash.slice(0, -3);
+        cwd = path.substr(0, path.lastIndexOf("/")) + "/";
+        if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length)
+        if (path.startsWith(config.sitePath)) path = path.slice(config.sitePath.length)
+        path = cleanPath(path)
 
         // Load Markdown
-        content.innerHTML = ""; // Reset scroll position
-        content.innerHTML = await renderMD(hash) || config.errorMessage || ''
+        contentDiv.innerHTML = ""; // Reset scroll position
+        contentDiv.innerHTML = await renderMD(path) || config.errorMessage || '';
 
         // Reformat document
+        document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
         document
             .querySelectorAll("#content input[type=checkbox]")
             .forEach((checkbox) => {
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
-        document.title = (document.querySelectorAll("h1")[0]?.innerText || "") + " | " + config.name || "";
+        if (config.browserRouter)
+            document.querySelectorAll("a")
+                .forEach(a => {
+                    const href = a.getAttribute("href");
+                    if (!/^[a-z]*:\/\/*\b/.test(href))
+                        a.onclick = (event) => {
+                            event.preventDefault();
+                            window.history.pushState({}, window.title, href)
+                            loadContent();
+                        }
+                })
+
+
         document.body.classList.add("loaded");
 
-        // Clean Hash
-        hash = "#" + hash.replace(/(README$)/, '')
-        window.location.replace(hash);
-    };
-
-    const loadElement = async (element) => {
-        const elementHtml = await renderMD(element);
-        if (!elementHtml) return
-
-        let elementDiv = document.createElement('div');
-        elementDiv.innerHTML = elementHtml;
-        elementDiv.id = element;
-        document.body.prepend(elementDiv);
+        if (!config.browserRouter)
+            window.location.replace(config.sitePath + path);
     };
 
     window.onload = init;
     window.onhashchange = () => loadContent();
+    if (config.browserRouter) window.onpopstate = loadContent;
 </script>
 
 </html>

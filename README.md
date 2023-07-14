@@ -15,13 +15,12 @@ Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MD
 - Create `README.md` to write your homepage
 - Every MarkDown file will turn into a page ✨
 
-
-## Development
+## Testing
 - Install Node 16+ and Yarn
 - `cd dev`
 - `yarn` to install dependencies
-- `yarn start` to start the HTTP server
 - `yarn test` to run tests
+- `yarn start` to start the HTTP servers
 - `yarn debug` to debug tests interactively
 
 ### Dependencies
