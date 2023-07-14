@@ -32,7 +32,6 @@ const subdirServer = () => {
   const app = Fastify({ logger: true });
   let html = fs.readFileSync("../index.html", "utf-8")
     .replace('sitePath: "/"', 'sitePath: "/subdir/"')
-    .replace('contentPath: "/"', 'contentPath: "/subdir/"')
 
   app.register(fastifyStatic, {
     root,
@@ -46,6 +45,6 @@ const subdirServer = () => {
   app.listen({ port: 3002 });
 };
 
-subdirServer();
-hashServer();
 starServer();
+hashServer();
+subdirServer();
