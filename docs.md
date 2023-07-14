@@ -129,3 +129,10 @@ Output ⬇️
 Output ⬇️
 
 <a href="https://youtu.be/ZxGiEoczryg" class="button">My favorite album</a>
+
+## Include
+```markdown
+include(include.md)
+```
+Output ⬇️
+include(include.md)

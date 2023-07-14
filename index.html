@@ -330,6 +330,32 @@
 			}
 		},
 	});
+	marked.use({
+		extensions: [{
+			name: 'include',
+			level: 'inline',
+			start: (src) => src.indexOf("include("),
+			tokenizer(src) {
+				const match = /^include\(([\w.-]+)\)/.exec(src);
+				if (match) {
+					return {
+						type: 'include',
+						raw: match[0],
+						url: match[1],
+						html: '',
+					};
+				}
+			},
+			renderer: (token) => token.html,
+		}],
+		async: true,
+		async walkTokens(token) {
+			if (token.type === 'include') {
+				token.url = cleanPath(token.url)
+				token.html = await renderMD(token.url)
+			}
+		}
+	});
 
 	const renderMD = async (path) => {
 		if (path.slice(-1) == "/" || path == "") path += "README";

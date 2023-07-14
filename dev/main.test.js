@@ -43,6 +43,11 @@ test('Anchors', async ({ page, prefix, baseUrl }) => {
     await isDocsPage({ page, prefix, baseUrl });
 })
 
+test('Include', async ({ page, prefix, baseUrl }) => {
+    await page.goto(baseUrl + '/docs')
+    await expect(page.getByText("This is an include !")).toBeVisible()
+})
+
 test('History', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
     await isHomePage({ page, prefix, baseUrl });
