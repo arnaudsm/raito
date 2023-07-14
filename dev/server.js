@@ -23,11 +23,29 @@ const starServer = () => {
     allowedPath: (path) => !["index.html", "/"].includes(path),
   });
   app.setNotFoundHandler((_, reply) => {
-    reply.code(404).type("text/html").send(html);
+    reply.code(200).type("text/html").send(html);
   });
   app.listen({ port: 3001 });
 };
 
-// Raito supports hash routing and star routing, we will test both
+const subdirServer = () => {
+  const app = Fastify({ logger: true });
+  let html = fs.readFileSync("../index.html", "utf-8")
+    .replace('sitePath: "/"', 'sitePath: "/subdir/"')
+    .replace('contentPath: "/"', 'contentPath: "/subdir/"')
+
+  app.register(fastifyStatic, {
+    root,
+    wildcard: false,
+    prefix: "/subdir/",
+    allowedPath: (path) => !["/index.html", "/"].includes(path),
+  });
+  app.setNotFoundHandler((_, reply) => {
+    reply.code(200).type("text/html").send(html);
+  });
+  app.listen({ port: 3002 });
+};
+
+subdirServer();
 hashServer();
 starServer();

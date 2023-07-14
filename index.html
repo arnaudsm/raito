@@ -13,7 +13,6 @@
     const config = {
         sitePath: "/",
         hashRouting: true,
-        contentPath: "/",
         name: "Raito",
         components: ["navbar", "github_ribbon"],
         errorMessage: "Page not found"
@@ -314,6 +313,7 @@
     const componentsDiv = document.getElementById("components");
 
     if (typeof hljs == 'undefined') var hljs;
+    config.contentPath = config.sitePath;
     if (config.hashRouting) config.sitePath = config.sitePath + "#/"
     let cwd = "";
 

@@ -13,7 +13,6 @@ export default defineConfig({
     url: 'http://localhost:3001',
     stderr: 'pipe',
   },
-  // Raito supports hash routing and star routing, we will test both
   projects: [
     {
       name: "star",
@@ -26,6 +25,13 @@ export default defineConfig({
       use: {
         baseUrl: "http://localhost:3000/#",
         prefix: "/#"
+      },
+    },
+    {
+      name: "subdir",
+      use: {
+        baseUrl: "http://localhost:3002/subdir/#",
+        prefix: "/subdir/#"
       },
     }
   ]
