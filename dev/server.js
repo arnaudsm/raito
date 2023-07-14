@@ -15,7 +15,7 @@ const hashServer = () => {
 const starServer = () => {
   const app = Fastify({ logger: true });
   let html = fs.readFileSync("../index.html", "utf-8")
-    .replace("hashRouting: true,", "hashRouting: false,")
+    .replace("browserRouter: false,", "browserRouter: true,")
 
   app.register(fastifyStatic, {
     root,
