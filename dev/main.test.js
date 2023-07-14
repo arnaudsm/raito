@@ -45,12 +45,20 @@ test('Anchors', async ({ page, prefix, baseUrl }) => {
 
 test('History', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
+    await expect(page.getByRole('heading', { name: 'Raito | Mini Markdown CMS ✨📝' })).toBeVisible()
+    await expect(page).toHaveURL(baseUrl + "/")
+
     await page.getByText("📄 Docs").click()
     await expect(page).toHaveURL(baseUrl + "/docs")
+    await expect(page.getByRole('heading', { name: 'Docs' })).toBeVisible()
+
     await page.goBack()
     await expect(page).toHaveURL(baseUrl + "/")
+    await expect(page.getByRole('heading', { name: 'Raito | Mini Markdown CMS ✨📝' })).toBeVisible()
+
     await page.goForward()
     await expect(page).toHaveURL(baseUrl + "/docs")
+    await expect(page.getByRole('heading', { name: 'Docs' })).toBeVisible()
 })
 
 test('Subdirectories', async ({ page, prefix, baseUrl }) => {

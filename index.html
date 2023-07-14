@@ -63,6 +63,7 @@
         padding: 0;
         background-color: var(--background-color);
         opacity: 0;
+        transition: opacity 0.3s;
     }
 
     body.loaded {
@@ -369,6 +370,7 @@
 
     const loadContent = async () => {
         let path = window.location.pathname + window.location.hash;
+        if (config.hashRouting && path == "/") path = config.sitePath
 
         cwd = path.substr(0, path.lastIndexOf("/")) + "/";
         if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length)
@@ -387,6 +389,19 @@
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
+        if (!config.hashRouting)
+            document.querySelectorAll("a")
+                .forEach(a => {
+                    const href = a.getAttribute("href");
+                    if (!/^[a-z]*:\/\/*\b/.test(href))
+                        a.onclick = (event) => {
+                            event.preventDefault();
+                            window.history.pushState({}, window.title, href)
+                            loadContent();
+                        }
+                })
+
+
         document.body.classList.add("loaded");
 
         if (config.hashRouting)
@@ -395,6 +410,7 @@
 
     window.onload = init;
     window.onhashchange = () => loadContent();
+    if (!config.hashRouting) window.onpopstate = loadContent;
 </script>
 
 </html>
