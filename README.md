@@ -3,7 +3,7 @@
 # [Raito](https://raito.arnaud.at) - Mini Markdown CMS ✨📝
 > Build your website with a single file!
 
-Raito is an ultralight static CMS/Wiki that weights 10kb.  
+Raito is an ultralight static CMS/Wiki that weights 8kb.  
 Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
