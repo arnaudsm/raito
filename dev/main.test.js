@@ -4,7 +4,7 @@ import { test } from "./playwright.config"
 const isHomePage = async ({ page, prefix, baseUrl }) => {
     await expect(page).toHaveURL(baseUrl + "/")
     await expect(page).toHaveTitle("Raito | Mini Markdown CMS ✨📝 | Raito")
-    await expect(page.getByRole('link', { name: 'Raito Logo Home' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Raito Logo' })).toBeVisible()
     await expect(await page.locator('#content img').getAttribute("src")).toEqual("logo.svg")
     await expect(await page.getByText("Arnaud de Saint Meloir").getAttribute('href')).toEqual("https://arnaud.at")
 }
@@ -32,7 +32,7 @@ test('Navbar', async ({ page, prefix, baseUrl }) => {
     await isHomePage({ page, prefix, baseUrl })
     await page.locator("#navbar").getByText("Docs").click()
     await isDocsPage({ page, prefix, baseUrl })
-    await page.locator("#navbar").getByText("Home").click()
+    await page.locator("#navbar").getByText("Raito").click()
     await isHomePage({ page, prefix, baseUrl })
 })
 
@@ -64,7 +64,7 @@ test('History', async ({ page, prefix, baseUrl }) => {
 test('Subdirectories', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/subdir/a')
     await expect(page).toHaveURL(baseUrl + "/subdir/a")
-    await expect(await page.getByRole('link', { name: 'Raito Logo Home' }).getAttribute('href')).toEqual(prefix + "/")
+    await expect(await page.getByRole('link', { name: 'Raito Logo' }).getAttribute('href')).toEqual(prefix + "/")
     await expect(await page.getByText("Docs").getAttribute('href')).toEqual(prefix + "/docs")
     await expect(await page.getByText("Homepage #1").getAttribute('href')).toEqual(prefix || "/")
     await expect(await page.getByText("Homepage #2").getAttribute('href')).toEqual(prefix || "/")
@@ -72,7 +72,7 @@ test('Subdirectories', async ({ page, prefix, baseUrl }) => {
     await page.getByText("b").click()
     await expect(page).toHaveURL(baseUrl + "/subdir/b")
 
-    await page.getByText("a").click()
+    await page.getByRole('link', { name: 'a', exact: true }).click()
     await expect(page).toHaveURL(baseUrl + "/subdir/a")
 
     await page.goto(baseUrl + '/subdir/subsubdir/c')

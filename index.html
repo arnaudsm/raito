@@ -12,7 +12,7 @@
 <script>
     const config = {
         sitePath: "/",
-        hashRouting: false,
+        browserRouter: true,
         name: "Raito",
         components: ["navbar", "github_ribbon"],
         errorMessage: "Page not found"
@@ -22,6 +22,59 @@
 <style>
     #github_ribbon p {
         margin: 0;
+    }
+
+    /* Navbar */
+    #navbar {
+        width: 100%;
+        background-color: var(--color-1);
+        color: white;
+        margin: 0;
+        position: fixed;
+        box-shadow: 0px 0px 16px #00000047;
+        padding-left: 2rem;
+        z-index: 5;
+    }
+
+    #navbar>ul>li>a>img {
+        border-radius: var(--border-radius);
+        margin: -1em 0;
+        vertical-align: super;
+        margin-right: .5em;
+        max-height: 2em;
+        width: 2rem;
+    }
+
+    #navbar ul {
+        display: flex;
+        gap: 1rem;
+        list-style: none;
+        margin: 0;
+        border-radius: inherit;
+        background: inherit;
+        border: none;
+    }
+
+    #navbar li {
+        margin: 1.4rem 0rem;
+        padding: inherit;
+        border: none;
+    }
+
+    #navbar li::before {
+        content: none;
+    }
+
+    #navbar a {
+        text-decoration: none;
+        padding: 0.9em 1.1em;
+        color: white;
+        font-weight: bold;
+    }
+
+    #navbar a:hover {
+        background-color: #ffffff14;
+        border-radius: var(--border-radius);
     }
 </style>
 
@@ -75,8 +128,12 @@
     h3,
     h4,
     h5 {
-        border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.3em;
+    }
+
+    h1,
+    h2 {
+        border-bottom: 1px solid var(--border-color);
     }
 
     a {
@@ -136,13 +193,14 @@
 
     /* Table */
     table {
-        overflow: hidden;
         border-collapse: collapse;
         margin: 2em 0;
         font-size: 0.9em;
         font-family: sans-serif;
         min-width: 20em;
         border-radius: var(--border-radius);
+        overflow: auto;
+        display: block;
     }
 
     table thead tr {
@@ -223,57 +281,6 @@
         background: inherit;
     }
 
-    /* Navbar */
-    #navbar {
-        position: relative;
-        width: 100%;
-        background-color: var(--color-1);
-        color: white;
-        margin: 0;
-        position: fixed;
-    }
-
-    #navbar>ul>li>a>img {
-        border-radius: var(--border-radius);
-        margin: -1em 0;
-        vertical-align: super;
-        margin-right: .5em;
-        max-height: 2em;
-        width: 2rem;
-    }
-
-    #navbar ul {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding-inline-start: 1em;
-        box-shadow: 0px 0px 7px #000000a6;
-        border-radius: inherit;
-        background: inherit;
-    }
-
-    #navbar li {
-        margin: 1em 1em 1em 0em;
-        padding: inherit;
-        border: none;
-    }
-
-    #navbar li::before {
-        content: none;
-    }
-
-    #navbar a {
-        text-decoration: none;
-        padding: 0.5em 1em;
-        color: white;
-        font-weight: bold;
-    }
-
-    #navbar a:hover {
-        background-color: #ffffff14;
-        border-radius: var(--border-radius);
-    }
-
     .button {
         margin: 0;
         padding: 1em 2em !important;
@@ -315,7 +322,7 @@
 
     if (typeof hljs == 'undefined') var hljs;
     config.contentPath = config.sitePath;
-    if (config.hashRouting) config.sitePath = config.sitePath + "#/"
+    if (!config.browserRouter) config.sitePath = config.sitePath + "#/"
     let cwd = "";
 
     // Rewrite relative URLs
@@ -370,7 +377,7 @@
 
     const loadContent = async () => {
         let path = window.location.pathname + window.location.hash;
-        if (config.hashRouting && path == "/") path = config.sitePath
+        if (!config.browserRouter && path == "/") path = config.sitePath
 
         cwd = path.substr(0, path.lastIndexOf("/")) + "/";
         if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length)
@@ -389,7 +396,7 @@
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
-        if (!config.hashRouting)
+        if (config.browserRouter)
             document.querySelectorAll("a")
                 .forEach(a => {
                     const href = a.getAttribute("href");
@@ -404,13 +411,13 @@
 
         document.body.classList.add("loaded");
 
-        if (config.hashRouting)
+        if (!config.browserRouter)
             window.location.replace(config.sitePath + path);
     };
 
     window.onload = init;
     window.onhashchange = () => loadContent();
-    if (!config.hashRouting) window.onpopstate = loadContent;
+    if (config.browserRouter) window.onpopstate = loadContent;
 </script>
 
 </html>

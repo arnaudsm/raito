@@ -1,8 +1,8 @@
 # Docs
 
 ## Pages
-Links to local markdown files should be relative (not starting with `/`).  
-Directory links (ending with `/`) will display the root `README.md`.
+Every markdown file becomes a page.
+Root paths redirect to `README.md`.
 
 ```
 ├── folder
@@ -13,39 +13,55 @@ Directory links (ending with `/`) will display the root `README.md`.
 └── index.html
 ```
 
-### Config
-All the config flags are in the the `config` variable in `index.html`.
+## Browser Router
+Recommended to improve SEO and user experience.
 
-### Components
-Components are visible in every page, and useful for navbars, sidebars and footers.
+Browser Router is disabled by default, since it requires a default redirection to `index.html`
+CloudFlare Pages does it by default.
 
-Create your component in a `.md` file, then add it to `config.json`.
+
+| Config                 | Example URL          | SEO Friendly |
+| ---------------------- | -------------------- | ------------ |
+| `browserRouter: false` | `example.com/#/page` | ❌            |
+| `browserRouter: true`  | `example.com/page`   | ✅            |
+
+
+## Components
+Components are visible in every page. Useful for navbars, sidebars and footers.
+
+Create your component in a `.md` file, then add it to the `components` list in `index.html`.
+
+```
+├── navbar.md
+└── index.html
+
+const config = {
+    components: ["navbar"],
+}
+```
 
 
 ## Links
-Markdown
 ```markdown
 - [Absolute Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 - [Relative Link](subdir/b.md)
 - [Parent Page](README.md)
 ```
-Output
+Output ⬇️
 
 - [Absolute Link](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 - [Relative Link](subdir/b.md)
 - [Parent Page](README.md)
 
 ## Blockquotes
-Markdown
 ```markdown
 > Not all those who wander are lost
 ```
 
-Output
+Output ⬇️
 > Not all those who wander are lost
 
 ## Tables
-Markdown
 ```markdown
 | Ingredient | Quantity | Price |
 | ---------- | -------- | ----- |
@@ -54,7 +70,7 @@ Markdown
 | Eggs       | 6        | $6.50 |
 ```
 
-Output
+Output ⬇️
 | Ingredient | Quantity | Price |
 | ---------- | -------- | ----- |
 | Milk       | 1L       | $5    |
@@ -62,29 +78,25 @@ Output
 | Eggs       | 6        | $6.50 |
 
 ## Checklists
-Markdown
 ```markdown
 - [x] Beer
 - [ ] Pancakes
 ```
 
-Output
+Output ⬇️
 - [x] Beer
 - [ ] Pancakes
 
 ## Lists
-Markdown
 ```markdown
 - Frodo Baggins
 - Gandalf the Grey
 ```
-
-Output
+Output ⬇️
 - Frodo Baggins
 - Gandalf the Grey
 
 ## Code Blocks
-Markdown
 ````markdown
 ```js
 var foo = function (bar) {
@@ -92,7 +104,7 @@ var foo = function (bar) {
 };
 ```
 ````
-Output
+Output ⬇️
 ``` js
 var foo = function (bar) {
   return bar++;
@@ -102,11 +114,10 @@ var foo = function (bar) {
 Synthax highlighting is optional. Enable by uncommenting the  [highlight.js](https://github.com/highlightjs/highlight.js/) imports in `index.html`.
 
 ## Images
-Markdown
 ```markdown
 ![logo](logo.svg)
 ```
-Output
+Output ⬇️
 
 ![logo](logo.svg)
 
