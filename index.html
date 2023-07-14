@@ -12,7 +12,7 @@
 <script>
     const config = {
         sitePath: "/",
-        hashRouting: true,
+        browserRouter: false,
         name: "Raito",
         components: ["navbar", "github_ribbon"],
         errorMessage: "Page not found"
@@ -128,8 +128,12 @@
     h3,
     h4,
     h5 {
-        border-bottom: 1px solid var(--border-color);
         padding-bottom: 0.3em;
+    }
+
+    h1,
+    h2 {
+        border-bottom: 1px solid var(--border-color);
     }
 
     a {
@@ -189,13 +193,14 @@
 
     /* Table */
     table {
-        overflow: hidden;
         border-collapse: collapse;
         margin: 2em 0;
         font-size: 0.9em;
         font-family: sans-serif;
         min-width: 20em;
         border-radius: var(--border-radius);
+        overflow: auto;
+        display: block;
     }
 
     table thead tr {
@@ -317,7 +322,7 @@
 
     if (typeof hljs == 'undefined') var hljs;
     config.contentPath = config.sitePath;
-    if (config.hashRouting) config.sitePath = config.sitePath + "#/"
+    if (!config.browserRouter) config.sitePath = config.sitePath + "#/"
     let cwd = "";
 
     // Rewrite relative URLs
@@ -372,7 +377,7 @@
 
     const loadContent = async () => {
         let path = window.location.pathname + window.location.hash;
-        if (config.hashRouting && path == "/") path = config.sitePath
+        if (!config.browserRouter && path == "/") path = config.sitePath
 
         cwd = path.substr(0, path.lastIndexOf("/")) + "/";
         if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length)
@@ -391,7 +396,7 @@
                 checkbox.disabled = "";
                 checkbox.parentElement.parentElement.classList.add("checklist");
             });
-        if (!config.hashRouting)
+        if (config.browserRouter)
             document.querySelectorAll("a")
                 .forEach(a => {
                     const href = a.getAttribute("href");
@@ -406,13 +411,13 @@
 
         document.body.classList.add("loaded");
 
-        if (config.hashRouting)
+        if (!config.browserRouter)
             window.location.replace(config.sitePath + path);
     };
 
     window.onload = init;
     window.onhashchange = () => loadContent();
-    if (!config.hashRouting) window.onpopstate = loadContent;
+    if (config.browserRouter) window.onpopstate = loadContent;
 </script>
 
 </html>
