@@ -48,6 +48,6 @@ const subdirApp = () => {
   console.log("Subdir: http://localhost:3002");
 };
 
-browserRouterApp();
 hashRouterApp();
+browserRouterApp();
 subdirApp();

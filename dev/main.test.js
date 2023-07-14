@@ -3,7 +3,7 @@ import { test } from "./playwright.config"
 
 const isHomePage = async ({ page, prefix, baseUrl }) => {
     await expect(page).toHaveURL(baseUrl + "/")
-    await expect(page).toHaveTitle("Raito | Mini Markdown CMS ✨📝 | Raito")
+    await expect(page).toHaveTitle("Raito - Mini Markdown CMS ✨📝 | Raito")
     await expect(page.getByRole('link', { name: 'Raito Logo' })).toBeVisible()
     await expect(await page.locator('#content img').getAttribute("src")).toEqual("logo.svg")
     await expect(await page.getByText("Arnaud de Saint Meloir").getAttribute('href')).toEqual("https://arnaud.at")
@@ -45,7 +45,7 @@ test('Anchors', async ({ page, prefix, baseUrl }) => {
 
 test('History', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/')
-    await expect(page.getByRole('heading', { name: 'Raito | Mini Markdown CMS ✨📝' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Raito - Mini Markdown CMS ✨📝' })).toBeVisible()
     await expect(page).toHaveURL(baseUrl + "/")
 
     await page.getByText("📄 Docs").click()
@@ -54,7 +54,7 @@ test('History', async ({ page, prefix, baseUrl }) => {
 
     await page.goBack()
     await expect(page).toHaveURL(baseUrl + "/")
-    await expect(page.getByRole('heading', { name: 'Raito | Mini Markdown CMS ✨📝' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Raito - Mini Markdown CMS ✨📝' })).toBeVisible()
 
     await page.goForward()
     await expect(page).toHaveURL(baseUrl + "/docs")
