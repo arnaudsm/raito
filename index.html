@@ -161,7 +161,7 @@
 
     #content {
         max-width: 35rem;
-        padding: 0 1em;
+        padding: 5rem 1rem;
         margin: auto;
         padding-top: 5em;
     }
@@ -281,34 +281,22 @@
         background: inherit;
     }
 
+    button,
     .button {
-        margin: 0;
-        padding: 1em 2em !important;
+        padding: 1rem 2em;
         background: #4285f4;
         color: white;
         overflow: auto;
         border-radius: var(--border-radius);
-    }
-
-    #darkmode {
-        position: fixed;
-        z-index: 1;
-        top: 0.5em;
-        right: 1em;
-    }
-
-    #darkmode .button {
-        background: white;
-        text-align: center;
-        padding: 0.6em !important;
-        border-radius: 9em;
-        line-height: 1.2;
+        border: none;
+        transition: opacity 0.3s;
         cursor: pointer;
     }
 
-    #darkmode .button.dark {
-        background-color: black;
-        content: "a";
+    button:hover,
+    .button:hover {
+        text-decoration: none;
+        opacity: .9;
     }
 </style>
 
