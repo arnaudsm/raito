@@ -6,14 +6,15 @@ import fs from "fs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-const hashServer = () => {
-  const app = Fastify({ logger: true });
+const hashRouterApp = () => {
+  const app = Fastify();
   app.register(fastifyStatic, { root });
   app.listen({ port: 3000 });
+  console.log("Hash Router: http://localhost:3000");
 }
 
-const starServer = () => {
-  const app = Fastify({ logger: true });
+const browserRouterApp = () => {
+  const app = Fastify();
   let html = fs.readFileSync("../index.html", "utf-8")
     .replace("browserRouter: false,", "browserRouter: true,")
 
@@ -26,10 +27,11 @@ const starServer = () => {
     reply.code(200).type("text/html").send(html);
   });
   app.listen({ port: 3001 });
+  console.log("Browser Router: http://localhost:3001");
 };
 
-const subdirServer = () => {
-  const app = Fastify({ logger: true });
+const subdirApp = () => {
+  const app = Fastify();
   let html = fs.readFileSync("../index.html", "utf-8")
     .replace('sitePath: "/"', 'sitePath: "/subdir/"')
 
@@ -43,8 +45,9 @@ const subdirServer = () => {
     reply.code(200).type("text/html").send(html);
   });
   app.listen({ port: 3002 });
+  console.log("Subdir: http://localhost:3002");
 };
 
-starServer();
-hashServer();
-subdirServer();
+browserRouterApp();
+hashRouterApp();
+subdirApp();
