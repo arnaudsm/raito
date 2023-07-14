@@ -1,9 +1,9 @@
 ![logo](logo.svg)
 
-# [Raito](https://raito.arnaud.at) | Mini Markdown CMS ✨📝
+# [Raito](https://raito.arnaud.at) - Mini Markdown CMS ✨📝
 > Build your website with a single file!
 
-Raito is an ultralight static CMS/Wiki that weights 8kb.  
+Raito is an ultralight static CMS/Wiki that weights 10kb.  
 Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
@@ -12,7 +12,7 @@ Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MD
 
 ## Install
 - Copy `index.html` to your website root
-- Create `README.md` to write your homepage
+- Write your homepage in `README.md`
 - Every MarkDown file will turn into a page ✨
 
 ## Testing
