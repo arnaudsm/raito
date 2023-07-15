@@ -12,7 +12,7 @@
 <script>
 	const config = {
 		sitePath: "/",
-		browserRouter: false,
+		browserRouter: true,
 		name: "Raito",
 		components: ["docs/navbar", "docs/github"],
 		errorMessage: "Page not found",
@@ -380,9 +380,14 @@
 		return path;
 	};
 
-    const loadContent = async () => {
-        cwd = window.location.hash.substr(0, window.location.hash.lastIndexOf("/")) + "/";
-        if (cwd == "/") cwd = "#/"
+	const loadContent = async () => {
+		// Clean URL
+		let path = window.location.pathname + window.location.hash;
+		if (!config.browserRouter && path == "/") path = config.sitePath;
+		cwd = path.substr(0, path.lastIndexOf("/")) + "/";
+		if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length);
+		if (path.startsWith(config.sitePath)) path = path.slice(config.sitePath.length);
+		path = cleanPath(path);
 
 		// Load Markdown
 		contentDiv.innerHTML = "";
@@ -409,23 +414,12 @@
 		if (!config.browserRouter) window.location.replace(config.sitePath + path);
 	};
 
-        // Clean Hash
-        hash = "#" + hash.replace(/(README$)/, '')
-        window.history.pushState({}, document.title, hash)
-    };
-
-    const loadElement = async (element) => {
-        const elementHtml = await renderMD(element);
-        if (!elementHtml) return
-
-        let elementDiv = document.createElement('div');
-        elementDiv.innerHTML = elementHtml;
-        elementDiv.id = element;
-        document.body.prepend(elementDiv);
-    };
-
-    window.onload = init;
-    window.onhashchange = () => loadContent();
+	window.onload = async () => {
+		await Promise.all((config.components || []).map((component) => loadComponent(component)));
+		await loadContent();
+	};
+	window.onhashchange = loadContent;
+	if (config.browserRouter) window.onpopstate = loadContent;
 </script>
 
 </html>
