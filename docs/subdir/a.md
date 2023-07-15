@@ -1,4 +1,4 @@
-# c
+# a
 
-- Link to [b](../b)
+- Link to [b](b.md)
 - Link to [Homepage](../..)
