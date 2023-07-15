@@ -85,3 +85,14 @@ test('Root', async ({ page, prefix, baseUrl }) => {
     await page.goto(origin);
     await isHomePage({ page, prefix, baseUrl });
 })
+
+test('Internal Anchors', async ({ page, prefix, baseUrl }) => {
+    await page.goto(baseUrl + '/docs/')
+    await page.getByRole('link', { name: 'Link Documentation' }).click()
+    await expect(page).toHaveURL(baseUrl + "/docs/#links")
+    await expect(page.getByRole('heading', { name: 'Links' })).toBeInViewport()
+
+    await page.goto(baseUrl)
+    await page.goto(baseUrl + '/docs/#links')
+    await expect(page.getByRole('heading', { name: 'Links' })).toBeInViewport()
+})

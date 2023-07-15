@@ -136,3 +136,11 @@ include(include.md)
 ```
 Output ⬇️
 include(include.md)
+
+## Internal Anchors
+```markdown
+[Link Documentation](#links)
+```
+Output ⬇️
+
+[Link Documentation](#links)
