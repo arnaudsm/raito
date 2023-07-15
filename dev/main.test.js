@@ -79,3 +79,9 @@ test('Subdirectories', async ({ page, prefix, baseUrl }) => {
     await expect(await page.getByText("b").getAttribute('href')).toEqual(prefix + "/docs/subdir/b")
     await expect(await page.getByText("Homepage").getAttribute('href')).toEqual(prefix || "/")
 })
+
+test('Root', async ({ page, prefix, baseUrl }) => {
+    const { origin } = new URL(baseUrl);
+    await page.goto(origin);
+    await isHomePage({ page, prefix, baseUrl });
+})
