@@ -5,7 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="icon" href="/logo.svg" sizes="any" type="image/svg+xml" />
+	<link rel="icon" href="logo.svg">
 </head>
 
 <!-- USER CONFIG -->
@@ -14,17 +14,17 @@
 		sitePath: "/",
 		browserRouter: false,
 		name: "Raito",
-		components: ["navbar", "github_ribbon"],
+		components: ["docs/navbar", "docs/github"],
 		errorMessage: "Page not found",
 	};
 </script>
 
 <style>
-	#github_ribbon p {
+	#docs-github p {
 		margin: 0;
 	}
 
-	#navbar {
+	#docs-navbar {
 		width: 100%;
 		background-color: var(--color-1);
 		color: white;
@@ -35,7 +35,7 @@
 		z-index: 5;
 	}
 
-	#navbar>ul>li>a>img {
+	#docs-navbar>ul>li>a>img {
 		border-radius: var(--border-radius);
 		margin: -1em 0;
 		vertical-align: super;
@@ -44,7 +44,7 @@
 		width: 2rem;
 	}
 
-	#navbar ul {
+	#docs-navbar ul {
 		display: flex;
 		gap: 1rem;
 		list-style: none;
@@ -54,24 +54,24 @@
 		border: none;
 	}
 
-	#navbar li {
+	#docs-navbar li {
 		margin: 1.4rem 0rem;
 		padding: inherit;
 		border: none;
 	}
 
-	#navbar li::before {
+	#docs-navbar li::before {
 		content: none;
 	}
 
-	#navbar a {
+	#docs-navbar a {
 		text-decoration: none;
 		padding: 0.9em 1.1em;
 		color: white;
 		font-weight: bold;
 	}
 
-	#navbar a:hover {
+	#docs-navbar a:hover {
 		background-color: #ffffff14;
 		border-radius: var(--border-radius);
 	}
@@ -336,7 +336,7 @@
 			level: 'inline',
 			start: (src) => src.indexOf("include("),
 			tokenizer(src) {
-				const match = /^include\(([\w.-]+)\)/.exec(src);
+				const match = /^include\((.*?)\)/.exec(src);
 				if (match) {
 					return {
 						type: 'include',
@@ -351,7 +351,7 @@
 		async: true,
 		async walkTokens(token) {
 			if (token.type === 'include') {
-				token.url = cleanPath(token.url)
+				token.url = cwd + cleanPath(token.url)
 				token.html = await renderMD(token.url)
 			}
 		}
@@ -370,7 +370,7 @@
 		if (!html) return;
 		let div = document.createElement("div");
 		div.innerHTML = html;
-		div.id = element;
+		div.id = element.replaceAll("/", "-");
 		componentsDiv.prepend(div);
 	};
 
