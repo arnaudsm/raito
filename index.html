@@ -358,6 +358,7 @@
 	});
 
 	const renderMD = async (path) => {
+		if (path.indexOf("#") != -1) path = path.substr(0, path.lastIndexOf("#"));
 		if (path.slice(-1) == "/" || path == "") path += "README";
 		const res = await fetch(`${config.contentPath}${path}.md`);
 		if (res.status != 200) return;
@@ -388,6 +389,7 @@
 		if (cwd.startsWith(config.sitePath)) cwd = cwd.slice(config.sitePath.length);
 		if (path.startsWith(config.sitePath)) path = path.slice(config.sitePath.length);
 		path = cleanPath(path);
+		const selector = path.indexOf("#") == -1 ? null : path.substr(path.lastIndexOf("#") + 1);
 
 		// Load Markdown
 		contentDiv.innerHTML = "";
@@ -409,6 +411,7 @@
 						loadContent();
 					};
 			});
+		if (selector) document.getElementById(selector).scrollIntoView()
 
 		document.body.classList.add("loaded");
 		if (!config.browserRouter) window.location.replace(config.sitePath + path);
