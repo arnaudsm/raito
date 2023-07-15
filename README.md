@@ -1,4 +1,4 @@
-![logo](logo.svg)
+![logo](docs/logo.svg)
 
 # [Raito](https://raito.arnaud.at) - Mini Markdown CMS ✨📝
 > Build your website with a single file!
