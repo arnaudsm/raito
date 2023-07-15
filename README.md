@@ -1,4 +1,4 @@
-![logo](logo.svg)
+![logo](docs/logo.svg)
 
 # [Raito](https://raito.arnaud.at) - Mini Markdown CMS ✨📝
 > Build your website with a single file!
@@ -8,7 +8,7 @@ Hence the name, ライト meaning *light* in Japanese.
 
 Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MDwiki](https://github.com/Dynalon/mdwiki/)
 
-**[🔥 Demo](https://raito.arnaud.at) | [📄 Docs](docs.md)**
+**[🔥 Demo](https://raito.arnaud.at) | [📄 Docs](docs/)**
 
 ## Install
 - Copy `index.html` to your website root
