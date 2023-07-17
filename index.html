@@ -17,6 +17,9 @@
 		components: ["docs/navbar", "docs/github"],
 		errorMessage: "Page not found",
 	};
+	if (config.sitePath === "" || config.sitePath === "/") {
+		config.sitePath = location.href.slice((location. protocol +'//'+ location.hostname).length, -1)+'/';
+	};
 </script>
 
 <style>
