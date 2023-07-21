@@ -96,3 +96,8 @@ test('Internal Anchors', async ({ page, prefix, baseUrl }) => {
     await page.goto(baseUrl + '/docs/#links')
     await expect(page.getByRole('heading', { name: 'Links' })).toBeInViewport()
 })
+
+test('404', async ({ page, prefix, baseUrl }) => {
+    await page.goto(baseUrl+"/does/not/exist");
+    await isHomePage({ page, prefix, baseUrl });
+})
