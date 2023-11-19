@@ -30,7 +30,9 @@ CloudFlare Pages does it by default.
 
 Components are visible in every page. Useful for navbars, sidebars and footers.
 
-Create your `.md` file under the structure:
+Create your component in a `.md` file, then add it to the `components` or `footers` list in `index.html`.
+
+Components are added before the content div, and Footers after it.
 
 ```
 ├── navbar.md
