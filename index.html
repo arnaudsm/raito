@@ -15,6 +15,7 @@
 		browserRouter: false,
 		name: "Raito",
 		components: ["docs/navbar", "docs/github"],
+		footers: ["docs/footer"],
 	};
 </script>
 
@@ -77,6 +78,18 @@
 	#docs-navbar a:hover {
 		background-color: #ffffff14;
 		border-radius: var(--border-radius);
+	}
+
+	#docs-footer {
+		text-align: center;
+		background-color: var(--color-1);
+		color: white;
+		padding: 1rem;
+	}
+
+	#docs-footer a {
+		color: white;
+		text-decoration: underline;
 	}
 </style>
 
@@ -301,6 +314,7 @@
 <body>
 	<div id="components"></div>
 	<div id="content"></div>
+	<div id="footer"></div>
 </body>
 <script>
 	const markedProps = {};
@@ -310,6 +324,7 @@
 	let cwd = "";
 	config.contentPath = config.sitePath;
 	const contentDiv = document.getElementById("content");
+	const footersDiv = document.getElementById("footer");
 	const componentsDiv = document.getElementById("components");
 	if (!config.browserRouter) config.sitePath = config.sitePath + "#/";
 
@@ -427,9 +442,19 @@
 		}
 	};
 
+	const loadFooter = async (element) => {
+		const html = await renderMD(element);
+		if (!html) return;
+		let div = document.createElement("div");
+		div.innerHTML = html;
+		div.id = element.replaceAll("/", "-");
+		footersDiv.prepend(div);
+	};
+
 	window.onload = async () => {
 		await Promise.all((config.components || []).map((component) => loadComponent(component)));
 		await loadContent();
+		await Promise.all((config.footers || []).map((footer) => loadFooter(footer)));
 	};
 	window.onhashchange = loadContent;
 	if (config.browserRouter) window.onpopstate = loadContent;

@@ -69,14 +69,14 @@ test("Subdirectories", async ({ page, prefix, baseUrl }) => {
 	await expect(await page.getByText("Docs").getAttribute("href")).toEqual(prefix + "/docs/");
 	await expect(await page.getByText("Homepage").getAttribute("href")).toEqual(prefix || "/");
 
-	await page.getByText("b").click();
+	await page.getByText("b", { exact: true }).click();
 	await expect(page).toHaveURL(baseUrl + "/docs/subdir/b");
 
 	await page.getByRole("link", { name: "a", exact: true }).click();
 	await expect(page).toHaveURL(baseUrl + "/docs/subdir/a");
 
 	await page.goto(baseUrl + "/docs/subdir/subsubdir/c");
-	await expect(await page.getByText("b").getAttribute("href")).toEqual(prefix + "/docs/subdir/b");
+	await expect(await page.getByText("b", { exact: true }).getAttribute("href")).toEqual(prefix + "/docs/subdir/b");
 	await expect(await page.getByText("Homepage").getAttribute("href")).toEqual(prefix || "/");
 });
 

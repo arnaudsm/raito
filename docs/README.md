@@ -26,20 +26,28 @@ CloudFlare Pages does it by default.
 | `browserRouter: true`  | `example.com/page`   | ✅            |
 
 
-## Components
+## Components and footer
+
 Components are visible in every page. Useful for navbars, sidebars and footers.
 
-Create your component in a `.md` file, then add it to the `components` list in `index.html`.
+Create your component in a `.md` file, then add it to the `components` or `footers` list in `index.html`.
+
+Components are added before the content div, and Footers after it.
 
 ```
 ├── navbar.md
-└── index.html
-
-const config = {
-    components: ["navbar"],
-}
+├── index.html
+└── footer.md
 ```
 
+Then add it to the `components`/`footers` list in `index.html`.
+
+```
+const config = {
+    components: ["navbar"],
+    footers: ["footer.md"],
+}
+```
 
 ## Links
 ```markdown
