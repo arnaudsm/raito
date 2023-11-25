@@ -17,7 +17,7 @@ Made by [Arnaud de Saint Meloir](https://arnaud.at), inspired by the defunct [MD
 
 ## Testing
 - Install Node 16+ and Yarn
-- `cd dev`
+- `cd tests`
 - `yarn` to install dependencies
 - `yarn test` to run tests
 - `yarn start` to start the HTTP servers
